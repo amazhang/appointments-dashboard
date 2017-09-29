@@ -38,32 +38,23 @@
             <div>{{ provider.city }}, {{ provider.state }} {{ provider.zip }}</div>
           </div>
         </div>
+
+        {{#if past }}
         <div class="data-row no-show">
-          <div class="title4 key">No-show</div>
+          <div class="title4 key">Mark as no-show</div>
           <div class="subText value">
             <div class="toggleSwitch noShow {{ noShow }}">
               <div class="on-text">Yes</div>
               <div class="off-text">No</div>
             </div>
-            <div class="toggleSwitchTextWrap {{ noShow }}">
+            <!-- <div class="toggleSwitchTextWrap {{ noShow }}">
               <div class="toggleSwitchText off">Patient showed up on time.</div>
               <div class="toggleSwitchText on">Patient never showed up.</div>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div class="data-row late-cancel">
-          <div class="title4 key">Late cancellation</div>
-          <div class="subText value">
-            <div class="toggleSwitch lateCancel {{ lateCancel }}">
-              <div class="on-text">Yes</div>
-              <div class="off-text">No</div>
-            </div>
-            <div class="toggleSwitchTextWrap {{ lateCancel }}">
-              <div class="toggleSwitchText off">Patient showed up on time.</div>
-              <div class="toggleSwitchText on">Patient canceled appt. late.</div>
-            </div>
-          </div>
-        </div>
+        {{/if}}
+
       </div>
     </div>
     <div class="slideout-section patient">
@@ -124,24 +115,20 @@
     </div>
   </div>
   <div class="slideout-section_footer">
-    <div class="buttonWrap fieldwrap primary medium">
+    <div class="buttonWrap fieldwrap secondary medium">
       <div class="button">View member plan and eligibility</div>
     </div>
 
     {{#if (eq status "canceled") }}
-      <div class="buttonWrap fieldwrap secondary medium uncancelCTA">
-        <div class="button">Marked as canceled - Undo</div>
-      </div>
+
     {{else}}
       <div class="buttonWrap fieldwrap secondary medium cancelCTA {{#if noShow }}disabled{{/if}}">
         <div class="button">
-          {{#if (eq status "booked") }}
-            Cancel appointment
-          {{else}}
-            Mark as canceled
-          {{/if}}
+          Cancel this appointment
         </div>
       </div>
     {{/if}}
+
+
   </div>
 {{/appointments}}

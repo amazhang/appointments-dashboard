@@ -1,4 +1,4 @@
-var appointments, global, buttons, dropdown, textInput, subheader, modal;
+var appointments, global, buttons, dropdown, textInput, subheader, modal, clickX, dragX;
 var cssBezier = new Ease(new BezierEasing(0.7, 0, 0.3, 1));
 
 var pages = {
@@ -258,6 +258,27 @@ global = {
 
     });
   },
+  refreshWithNewData : function(container, template, newData, time, callback) {
+    time = typeof time === "undefined" ? 0.2 : time;
+
+    TweenLite.to($(container), time, {
+      "alpha" : 0,
+      "ease" : cssBezier,
+      onComplete : function(){
+        global.render(newData, template, container, true, function(){
+          TweenLite.to($(container), time, {
+            "alpha" : 1,
+            "ease" : cssBezier,
+            onComplete: function() {
+              if (typeof callback !== "undefined") {
+                setTimeout(callback, 0.2);
+              }
+            }
+          });
+        });
+      }
+    });
+  }
 };
 
 appointments = {
@@ -333,6 +354,8 @@ appointments = {
     var appt = appointments.dateStrToObj(apptObject.date).dateNoHyphens;
     var past = today > appt;
 
+    apptObject.past = past;
+
     // coding in that noshows trump cancels.
     // the order / sequence of these returns matter.
     if (!past) {
@@ -361,40 +384,21 @@ appointments = {
     var currentStatus = apptObject[fieldKey];
     var newStatus = !currentStatus;
     apptObject[fieldKey] = newStatus;
-    $(".toggleSwitch." + fieldKey).siblings(".toggleSwitchTextWrap").removeClass("" + currentStatus).addClass("" + newStatus);
+    // $(".toggleSwitch." + fieldKey).siblings(".toggleSwitchTextWrap").removeClass("" + currentStatus).addClass("" + newStatus);
   },
   typeReasonToFields : function(apptObject) {
     var apptTypeArray = apptObject.typeReason.split("-");
     apptObject.type = apptTypeArray[0];
     apptObject.reasonForVisit = apptTypeArray[1];
   },
-  redrawAppointmentRow : function(aptObject) {
-    var id = aptObject._id;
-    aptObject.status = appointments.determineStatus(aptObject);
+  redrawAppointmentRow : function(apptObject) {
+    var id = apptObject._id;
+    apptObject.status = appointments.determineStatus(apptObject);
     var $apptWrapper = $(".appt-wrapper#" + id);
-    var aptArrayObj = { "appointments" : [aptObject] };
-
-    $.get("templates/_appointments-list-item.html", function(html) {
-      Handlebars.registerHelper("eq", function(a, b){
-        return a === b;
-      });
-      Handlebars.registerHelper("decimalToTime", function(decimal){
-        return global.decimalToTime(decimal);
-      });
-      Handlebars.registerHelper("shouldHaveTooltip", function(planStatus, potentialNoShow){
-        return (planStatus !== "active") || potentialNoShow;
-      });
-      Handlebars.registerHelper("convertProviderName", function(providerName){
-        return providerName.toLowerCase().replace(/\s/g, "-");
-      });
-
-      var template = Handlebars.compile(html);
-      var rendered = template(aptArrayObj);
-
-      var $rendered = $("<div />");
-      $rendered.html(rendered);
-      var renderedInnerHTML = $rendered.find(".appt-wrapper").html();
-      $apptWrapper.html(renderedInnerHTML);
+    var apptArrayObj = { "appointments" : [apptObject] };
+    $apptWrapper.wrap('<div class="temp-wrapper"></div>');
+    global.refreshWithNewData(".appointments-wrapper .temp-wrapper", "appointments-list-item", apptArrayObj, 0, function(){
+      $(".temp-wrapper .appt-wrapper").unwrap();
     });
   },
   loadAppointments : function(callback) {
@@ -587,7 +591,7 @@ dropdown = {
       dropdown.open($dropdown);
     }
   },
-  selectOption : function($option, $dropdown) {
+  selectOption : function($option, $dropdown, callback) {
     var isMulti = $dropdown.parents(".multi").length;
 
     if (!isMulti){
@@ -609,6 +613,10 @@ dropdown = {
 
     $dropdown.addClass("nonempty");
     dropdown.close($dropdown);
+
+    if (typeof callback === "function") {
+      callback();
+    }
   },
   unselectOption : function($option, $dropdown) {
     var isMulti = $dropdown.parents(".multi").length;
@@ -802,7 +810,9 @@ modal = {
   closeModal : function() {
     $(".modal-container").addClass("closed");
     setTimeout(function() {
-      $("body.locked").removeClass("locked");
+      if ($(".slideout").hasClass("collapsed")) {
+        $("body.locked").removeClass("locked");
+      }
       $(".modal-content").remove();
       $(".modal").attr("class","modal");
     }, 400);
@@ -1062,21 +1072,11 @@ $(document).ready(function(){
         global.closeSlideout();
       }
       else {
-        appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: id}) );
+        var selectedId = $(".appt-wrapper.selected").attr("id");
+        appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
         $(".appt-wrapper.selected").removeClass("selected");
         $(this).addClass("selected");
-        TweenLite.to($(".slideoutContent"), 0.2, {
-          "alpha" : 0,
-          "ease" : cssBezier,
-          onComplete : function(){
-            global.render(apptObj, "appointment-slideout", ".slideout .slideoutContent", true, function(){
-              TweenLite.to($(".slideoutContent"), 0.2, {
-                "alpha" : 1,
-                "ease" : cssBezier
-              });
-            });
-          }
-        });
+        global.refreshWithNewData(".slideout .slideoutContent", "appointment-slideout", apptObj);
       }
     }
   });
@@ -1108,4 +1108,23 @@ $(document).ready(function(){
       global.render(apptObj, "cancel-appt-modal-datalist", $(".modal .appointment-summary"));
     });
   });
+
+  $(document).on("click", ".cancelReason .dd .option:not(.selected):not(.disabled)", function(e) {
+    e.stopPropagation();
+    dropdown.selectOption($(this), $(this).parents(".dropdown"), function() {
+      $(".full-width-modal-cta.cancel-appt .buttonWrap.disabled").removeClass("disabled");
+    });
+  });
+
+  $(document).on("click", ".full-width-modal-cta.cancel-appt .buttonWrap:not(.disabled) .button", function(e) {
+    e.stopPropagation();
+    var id = $(".appt-wrapper.selected").attr("id");
+    var apptObj = _.findWhere(appointments.appts, {_id: id});
+    apptObj.canceled = true;
+    var apptObjArray = { "appointments" : [apptObj] };
+    modal.closeModal();
+    appointments.redrawAppointmentRow(apptObj);
+    global.refreshWithNewData(".slideout .slideoutContent", "appointment-slideout", apptObjArray);
+  });
+
 });

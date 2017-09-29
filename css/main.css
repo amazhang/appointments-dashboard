@@ -2122,6 +2122,8 @@ a.textLink {
       margin: 0 auto;
       left: 0;
       right: 0; }
+  .appointments-list .temp-wrapper .appt-wrapper:first-child {
+    border-top: 1px solid #dee1e5; }
   .appointments-list .appt-wrapper {
     display: flex;
     border-top: 1px solid #dee1e5;
@@ -2167,8 +2169,6 @@ a.textLink {
           background-color: #EBF0FE; }
     .appointments-list .appt-wrapper:first-child {
       border-top: 0; }
-      .appointments-list .appt-wrapper:first-child:hover {
-        border-top: 1px solid #dee1e5; }
     .appointments-list .appt-wrapper .col {
       padding: 30px 0;
       background-color: #fff; }
