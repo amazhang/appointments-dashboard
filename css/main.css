@@ -819,7 +819,7 @@ a.curr {
 .dd.small .options, .dd.xsmall .options {
   margin-top: 52px; }
   .dd.small .options .option, .dd.xsmall .options .option {
-    padding: 12px 15px 12px 39px; }
+    padding: 16px 15px 16px 39px; }
 
 .dd.medium.open .dropdown:after {
   height: 24px; }
@@ -835,7 +835,7 @@ a.curr {
   margin-top: 56px; }
 
 .dd.medium .options-wrap .option {
-  padding: 12px 15px;
+  padding: 16px 15px;
   padding-left: 39px; }
 
 .dd.error .view .label,
@@ -992,7 +992,7 @@ a.curr {
           content: "";
           left: 15px;
           position: absolute;
-          top: 12px;
+          top: 16px;
           background: url("../img/icon_checkmark-blue.svg") center center no-repeat;
           background-size: contain;
           width: 16px;

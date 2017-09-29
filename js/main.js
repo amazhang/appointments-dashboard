@@ -223,7 +223,7 @@ global = {
   render : function(obj, tpl, target, replace, onComplete) {
     replace = typeof replace === "undefined" ? true : replace;
 
-    $.get("/templates/_"+tpl+".html", function(html) {
+    $.get("templates/_"+tpl+".html", function(html) {
       // if you want a helper method in the render.
       Handlebars.registerHelper("eq", function(a, b){
         return a === b;
@@ -374,7 +374,7 @@ appointments = {
     var $apptWrapper = $(".appt-wrapper#" + id);
     var aptArrayObj = { "appointments" : [aptObject] };
 
-    $.get("/templates/_appointments-list-item.html", function(html) {
+    $.get("templates/_appointments-list-item.html", function(html) {
       Handlebars.registerHelper("eq", function(a, b){
         return a === b;
       });
