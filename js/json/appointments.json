@@ -1,0 +1,494 @@
+{
+  "appointments" : [
+  {
+    "_id": "59cc849cfb3b5d94967bc3eb",
+    "index": 0,
+    "date": "2017-09-25 Monday Sep.",
+    "startTime": 12,
+    "typeReason": "Sick-Skin infection",
+    "noShow": false,
+    "lateCancel": true,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Emilia",
+      "lastName": "Melendez",
+      "gender": "female",
+      "dateOfBirth": "Nov. 12, 1964",
+      "oscarID": "OSC14300850-01",
+      "planStatus": "active",
+      "phone": "+1 (899) 520-2341",
+      "email": "emiliamelendez@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "774 Himrod Street",
+        "addressLine2": "Apt #898",
+        "cityState": "Hoboken, NJ",
+        "zip": 10627
+      }
+    }
+  },
+  {
+    "_id": "59cc849c875c39a5ce7bd771",
+    "index": 1,
+    "date": "2017-09-29 Friday Sep.",
+    "startTime": 16.75,
+    "typeReason": "Sick-Immunization",
+    "noShow": true,
+    "lateCancel": true,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Hawkins",
+      "lastName": "Sosa",
+      "gender": "male",
+      "dateOfBirth": "Oct. 02, 1980",
+      "oscarID": "OSC36008444-01",
+      "planStatus": "active",
+      "phone": "+1 (998) 517-2194",
+      "email": "hawkinssosa@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "765 Will Place",
+        "addressLine2": "Apt #384",
+        "cityState": "Hoboken, NJ",
+        "zip": 11180
+      }
+    }
+  },
+  {
+    "_id": "59cc849c302438cfdc987138",
+    "index": 2,
+    "date": "2017-09-29 Friday Sep.",
+    "startTime": 11.25,
+    "typeReason": "Sick-Skin infection",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "606 Bleeker Street, Suite 257",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Mcintosh",
+      "lastName": "Mcdowell",
+      "gender": "male",
+      "dateOfBirth": "Jul. 09, 1985",
+      "oscarID": "OSC77694126-01",
+      "planStatus": "active",
+      "phone": "+1 (945) 600-3364",
+      "email": "mcintoshmcdowell@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "184 Montauk Avenue",
+        "addressLine2": "Apt #605",
+        "cityState": "Brooklyn, NY",
+        "zip": 10182
+      }
+    }
+  },
+  {
+    "_id": "59cc849ccdc42d23cd6e99f6",
+    "index": 3,
+    "date": "2017-09-27 Wednesday Sep.",
+    "startTime": 14.5,
+    "typeReason": "Sick-Leg injuries and disorders",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Tonya",
+      "lastName": "Smith",
+      "gender": "female",
+      "dateOfBirth": "Oct. 25, 1997",
+      "oscarID": "OSC73768434-01",
+      "planStatus": "active",
+      "phone": "+1 (849) 434-3010",
+      "email": "tonyasmith@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "995 Lee Avenue",
+        "addressLine2": "Apt #926",
+        "cityState": "Brooklyn, NY",
+        "zip": 10674
+      }
+    }
+  },
+  {
+    "_id": "59cc849c2c3e46238f393a91",
+    "index": 4,
+    "date": "2017-09-27 Wednesday Sep.",
+    "startTime": 17,
+    "typeReason": "Sick-Immunization",
+    "noShow": true,
+    "lateCancel": true,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Bette",
+      "lastName": "Byrd",
+      "gender": "female",
+      "dateOfBirth": "Mar. 28, 1983",
+      "oscarID": "OSC88246810-01",
+      "planStatus": "active",
+      "phone": "+1 (963) 503-3889",
+      "email": "bettebyrd@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "371 Judge Street",
+        "addressLine2": "Apt #738",
+        "cityState": "Jersey City, NJ",
+        "zip": 10776
+      }
+    }
+  },
+  {
+    "_id": "59cc849c75a59ec3aaad1c07",
+    "index": 5,
+    "date": "2017-09-25 Monday Sep.",
+    "startTime": 13,
+    "typeReason": "Well woman exam",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Alissa",
+      "lastName": "Hopkins",
+      "gender": "female",
+      "dateOfBirth": "Jun. 12, 1987",
+      "oscarID": "OSC74637785-01",
+      "planStatus": "active",
+      "phone": "+1 (864) 512-3295",
+      "email": "alissahopkins@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "733 Love Lane",
+        "addressLine2": "Apt #555",
+        "cityState": "Queens, NY",
+        "zip": 11182
+      }
+    }
+  },
+  {
+    "_id": "59cc849c99940f76f9dfbff7",
+    "index": 6,
+    "date": "2017-09-25 Monday Sep.",
+    "startTime": 15,
+    "typeReason": "Physical-Annual physical",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Emma",
+      "lastName": "Coffey",
+      "gender": "female",
+      "dateOfBirth": "Oct. 13, 1957",
+      "oscarID": "OSC87667671-01",
+      "planStatus": "active",
+      "phone": "+1 (911) 458-2088",
+      "email": "emmacoffey@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "189 Hanson Place",
+        "addressLine2": "Apt #858",
+        "cityState": "Jersey City, NJ",
+        "zip": 10940
+      }
+    }
+  },
+  {
+    "_id": "59cc849cf51621ad139d80db",
+    "index": 7,
+    "date": "2017-09-28 Thursday Sep.",
+    "startTime": 12,
+    "typeReason": "Physical-Annual physical",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Esther",
+      "lastName": "Anderson",
+      "gender": "female",
+      "dateOfBirth": "Dec. 11, 1957",
+      "oscarID": "OSC87270697-01",
+      "planStatus": "active",
+      "phone": "+1 (979) 441-3055",
+      "email": "estheranderson@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "151 Forbell Street",
+        "addressLine2": "Apt #795",
+        "cityState": "Brooklyn, NY",
+        "zip": 11270
+      }
+    }
+  },
+  {
+    "_id": "59cc849cb2e2cd74ac81aa6a",
+    "index": 8,
+    "date": "2017-09-25 Monday Sep.",
+    "startTime": 16.25,
+    "typeReason": "Sick-General consultation",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": true,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Karina",
+      "lastName": "Munoz",
+      "gender": "female",
+      "dateOfBirth": "Jun. 18, 1971",
+      "oscarID": "OSC20020517-01",
+      "planStatus": "active",
+      "phone": "+1 (850) 409-3270",
+      "email": "karinamunoz@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "315 Troutman Street",
+        "addressLine2": "Apt #517",
+        "cityState": "New York, NY",
+        "zip": 11136
+      }
+    }
+  },
+  {
+    "_id": "59cc849cbb0e859830fca656",
+    "index": 9,
+    "date": "2017-09-27 Wednesday Sep.",
+    "startTime": 11.5,
+    "typeReason": "Sick-General consultation",
+    "noShow": true,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "606 Bleeker Street, Suite 257",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Welch",
+      "lastName": "Solomon",
+      "gender": "male",
+      "dateOfBirth": "Oct. 17, 1959",
+      "oscarID": "OSC44103908-01",
+      "planStatus": "active",
+      "phone": "+1 (976) 552-3623",
+      "email": "welchsolomon@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "413 Vine Street",
+        "addressLine2": "Apt #284",
+        "cityState": "Union City, NJ",
+        "zip": 11127
+      }
+    }
+  },
+  {
+    "_id": "59cc849c3bf1d41ec128a00d",
+    "index": 10,
+    "date": "2017-09-27 Wednesday Sep.",
+    "startTime": 15.5,
+    "typeReason": "Physical-Annual physical",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": true,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "606 Bleeker Street, Suite 257",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Josefina",
+      "lastName": "Allen",
+      "gender": "female",
+      "dateOfBirth": "Jul. 05, 1963",
+      "oscarID": "OSC35833890-01",
+      "planStatus": "active",
+      "phone": "+1 (951) 539-3387",
+      "email": "josefinaallen@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "658 Cox Place",
+        "addressLine2": "Apt #812",
+        "cityState": "New York, NY",
+        "zip": 10951
+      }
+    }
+  },
+  {
+    "_id": "59cc849c749da3612120e83d",
+    "index": 11,
+    "date": "2017-09-28 Thursday Sep.",
+    "startTime": 14,
+    "typeReason": "Sick-Skin infection",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": true,
+    "canceled": false,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "606 Bleeker Street, Suite 257",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Gina",
+      "lastName": "Burgess",
+      "gender": "female",
+      "dateOfBirth": "Sep. 24, 1986",
+      "oscarID": "OSC35756062-01",
+      "planStatus": "suspended",
+      "phone": "+1 (981) 488-2571",
+      "email": "ginaburgess@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "656 Seagate Avenue",
+        "addressLine2": "Apt #926",
+        "cityState": "Queens, NY",
+        "zip": 10015
+      }
+    }
+  },
+  {
+    "_id": "59cc849c44c9b23589552ce5",
+    "index": 12,
+    "date": "2017-09-28 Thursday Sep.",
+    "startTime": 15.75,
+    "typeReason": "Pregnancy visit-Prenatal visit",
+    "noShow": false,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": true,
+    "provider": {
+      "name": "Claudia Roberts",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Phillips",
+      "lastName": "Harrell",
+      "gender": "male",
+      "dateOfBirth": "Jan. 04, 1975",
+      "oscarID": "OSC93565114-01",
+      "planStatus": "active",
+      "phone": "+1 (948) 556-2299",
+      "email": "phillipsharrell@cytrex.com",
+      "newPatient": true,
+      "address": {
+        "addressLine1": "119 Bushwick Avenue",
+        "addressLine2": "Apt #104",
+        "cityState": "Union City, NJ",
+        "zip": 10650
+      }
+    }
+  },
+  {
+    "_id": "59cc849cb8e2f12f023716f3",
+    "index": 13,
+    "date": "2017-09-28 Thursday Sep.",
+    "startTime": 13.25,
+    "typeReason": "Well woman exam",
+    "noShow": true,
+    "lateCancel": false,
+    "potentialNoShow": false,
+    "canceled": false,
+    "provider": {
+      "name": "Karen McAdoo",
+      "address": "83 2nd Avenue, 4th Floor",
+      "city": "New York",
+      "state": "NY",
+      "zip": 10003
+    },
+    "member": {
+      "firstName": "Maldonado",
+      "lastName": "Galloway",
+      "gender": "male",
+      "dateOfBirth": "Apr. 24, 1958",
+      "oscarID": "OSC59923392-01",
+      "planStatus": "suspended",
+      "phone": "+1 (996) 549-3808",
+      "email": "maldonadogalloway@cytrex.com",
+      "newPatient": false,
+      "address": {
+        "addressLine1": "782 Branton Street",
+        "addressLine2": "Apt #543",
+        "cityState": "Hoboken, NJ",
+        "zip": 10771
+      }
+    }
+  }
+]
+}

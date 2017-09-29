@@ -1,0 +1,493 @@
+body.buttons {
+  .grid .grid-col {
+    @include setCols(1, $gutter-size, 8);
+  }
+
+  .grid .grid-col:nth-child(n+9) {
+    display: none;
+
+    @media only screen and (max-width: $med-breakpt) {
+      display: block;
+    }
+  }
+
+  @media only screen and (max-width: $med-breakpt) {
+    .grid .grid-col {
+      @include setCols(1, $gutter-size, 6);
+
+      &:nth-child(n+7) {
+        display: none;
+      }
+    }
+  }
+}
+
+.example-shell.button-shell {
+  @include setColsNoMargin(1,8);
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media only screen and (max-width: $lrg-breakpt) {
+    @include setColsNoMargin(2,8);
+  }
+
+  @media only screen and (max-width: $med-breakpt) {
+    @include setColsNoMargin(4,8);
+  }
+}
+
+
+.buttonWrap {
+  position: relative;
+  display: inline-block;
+  width: auto;
+
+  // Size based things
+
+  // Small
+  &.small .button {
+    @extend .title4;
+    height: $button-small;
+    padding: $button-padding-small $button-hpadding;
+  }
+  // Small with icon.
+  &.icon-only.small .button-icon-wrap,
+  &.icon-only-action.small .button-icon-wrap {
+    width: $icon-small;
+  }
+  &.icon-only.small .button{
+    width: $button-small;
+    padding: ($button-small - $icon-small - 2)/2;
+  }
+
+  // medium
+  &.medium {
+    .button {
+      @extend .title4;
+      height: $button-medium;
+      padding: $button-padding-medium $button-hpadding;
+    }
+  }
+  // medium with icon
+  &.icon-only.medium .button-icon-wrap,
+  &.icon-only-action.medium .button-icon-wrap {
+    width: $icon-medium;
+  }
+  &.icon-only.medium .button{
+    width: $button-medium;
+    padding: ($button-medium - $icon-medium - 2)/2;
+  }
+
+
+  // large
+  &.large {
+    .button-action {
+      @extend .text;
+      padding: $increment*3 $closedFieldMargin;
+    }
+    .button {
+      @extend .title4;
+      height: $button-large;
+      padding: $button-padding-large $button-hpadding;
+    }
+  }
+  // large with icon
+  &.icon-only.large .button-icon-wrap,
+  &.icon-only-action.large .button-icon-wrap {
+    width: $icon-medium;
+  }
+  &.icon-only.large .button{
+    width: $button-large;
+    padding: ($button-large - $icon-medium - 2)/2;
+  }
+
+
+  // xlarge
+  &.xlarge {
+    .button-action {
+      @extend .primaryText;
+      padding: $increment*3 $closedFieldMargin;
+    }
+    .button {
+      @extend .title3;
+      height: $button-xlarge;
+      padding: $button-padding-xlarge $button-hpadding;
+    }
+  }
+  // xlarge with icon
+  &.icon-only.xlarge .button-icon-wrap,
+  &.icon-only-action.xlarge .button-icon-wrap {
+    width: $icon-medium;
+  }
+  &.icon-only.xlarge .button{
+    width: $button-xlarge;
+    padding: ($button-xlarge - $icon-medium - 2)/2;
+  }
+
+
+  // define icon with text
+  &.icon {
+    .button {
+      padding: inherit $button-hpaddingWithIcon;
+      display: flex;
+      align-content: center;
+      align-items: center;
+    }
+    .icon-wrap {
+      margin-right: $icon-button-margin;
+
+      &.icon-small {
+        width: $icon-small;
+        height: $icon-small;
+      }
+    }
+  }
+
+
+  // icon only button
+  &.icon-only .button,
+  &.icon-only-action .button {
+    // padding: 0 $button-hpadding-icononly;
+
+    .button-icon-wrap {
+      height: 100%;
+      background-position: center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+
+  // primary
+  &.primary .button {
+    background-color: $color-teal;
+    color: $color-white;
+  }
+  &.primary:not(.focus) .button:hover,
+  &.primary:not(.focus) .button:focus,
+  &.primary.hover .button {
+    background-color: darken($color-teal, 5%);
+  }
+  &.primary:not(.hover) .button:active,
+  &.primary.focus .button,
+  &.primary .action-dropdown.expanded + .button {
+    background-color: darken($color-teal, 10%);
+  }
+  &.primary.disabled .button,
+  &.primary.disabled .button:hover {
+    background-color: $color-teal;
+  }
+  // only necessary for this example.
+  // &.primary.icon .button:before {
+  //   background: url("../img/icon_checkmark-white.svg") center center no-repeat;
+  //   background-size: contain;
+  // }
+  // &.primary.icon-only .button-icon-wrap {
+  //   background-image: url("../img/icon_checkmark-white.svg");
+  // }
+
+
+  // secondary
+  &.secondary .button {
+    background-color: $color-white;
+    color: $color-blue-black;
+    // font-weight: $font-weight-normal;
+    border-color: $color-border-gray-dark;
+  }
+  &.secondary:not(.focus) .button:hover,
+  &.secondary:not(.focus) .button:focus,
+  &.secondary.hover .button {
+    border-color: $color-text-light;
+    background-color: $color-gray-background-cool;
+  }
+
+  &.secondary:not(.hover) .button:active,
+  &.secondary.focus .button,
+  &.secondary .action-dropdown.expanded + .button {
+    border-color: $color-text;
+    background-color: $color-border-gray;
+  }
+  &.secondary.disabled .button,
+  &.secondary.disabled .button:hover {
+    border-color: $color-border-gray-dark;
+    background-color: $color-white;
+  }
+  // &.secondary.action .button:after {
+  //   background: url("../img/dropdown-arrow.svg") center right no-repeat;
+  //   background-size: $icon-small;
+  //   opacity: 0.5;  // i'm trying to mimic the svg as $color-text as i can't manipulate svg backgrounds
+  //   border-color: rgba($color-blue-black, 0.5);
+  // }
+  // // only necessary for this example
+  // &.secondary.icon .button:before {
+  //   background: url("../img/icon_settings_16-blue.svg") center center no-repeat;
+  //   background-size: contain;
+  // }
+  // &.secondary.icon-only .button-icon-wrap {
+  //   background-image: url("../img/icon_settings_16-blue.svg");
+  // }
+
+
+  // destructive
+  &.destructive .button {
+    background-color: $color-red;
+    color: $color-white;
+  }
+  &.destructive:not(.focus) .button:hover,
+  &.destructive:not(.focus) .button:focus,
+  &.destructive.hover .button {
+    background-color: darken($color-red, 10%);
+  }
+
+  &.destructive:not(.hover) .button:active,
+  &.destructive.focus .button,
+  &.destructive .action-dropdown.expanded + .button {
+    background-color: darken($color-red, 20%);
+  }
+
+  &.destructive.disabled .button,
+  &.destructive.disabled .button:hover {
+    background-color: $color-red;
+  }
+  // only necessary for this example
+  // &.destructive.icon .button:before {
+  //   background: url("../img/icon_trash_16-white.svg") center center no-repeat;
+  //   background-size: contain;
+  // }
+  // &.destructive.icon-only .button-icon-wrap {
+  //   background-image: url("../img/icon_trash_16-white.svg");
+  // }
+
+
+  // knockout
+  &.knockout .button {
+    border: 1px solid $color-white;
+    background-color: transparent;
+    color: $color-white;
+  }
+  &.knockout:not(.focus) .button:hover,
+  &.knockout:not(.focus) .button:focus,
+  &.knockout.hover .button,
+  &.knockout .action-dropdown.expanded + .button {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  &.knockout:not(.hover) .button:active,
+  &.knockout.focus .button {
+    background-color: rgba(255, 255, 255, 0.3);
+    // color: $color-blue-black;
+  }
+  &.knockout.disabled .button,
+  &.knockout.disabled .button:hover {
+    background-color: transparent;
+  }
+  // only necessary for this example
+  // &.knockout.icon .button:before {
+  //   background: url("../img/icon_info-white.svg") center center no-repeat;
+  //   background-size: contain;
+  // }
+  // &.knockout.icon-only .button-icon-wrap {
+  //   background-image: url("../img/icon_info-white.svg");
+  // }
+
+  &.disabled .button,
+  &.disabled .button:hover {
+    opacity: $disabledOpacity;
+    cursor: not-allowed;
+  }
+
+  &.action .button {
+    padding-left: $button-hpaddingWithIcon;
+    padding-right: $icon-button-margin + $icon-small + $button-hpaddingWithIcon !important;
+
+    &:after {
+      background: url("../img/dropdown-arrow-white.svg") center right no-repeat;
+      content: "";
+      width: $icon-small;
+      height: 100%;
+      @include centerAbsV;
+      right: $button-hpaddingWithIcon;
+      background-size: $icon-small;
+    }
+  }
+
+
+
+  // action dropdown
+  .action-dropdown {
+    position: absolute;
+    background-color: $color-white;
+    padding: $optionsWrapper-vpadding 0;
+    border-radius: $border-radius;
+    right: 0;
+    border: 1px solid $color-border-gray;
+    z-index: 1;
+    top: 100%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: $transition-quick $easing-curve;
+    transition-property: opacity, width, box-shadow;
+    pointer-events: none;
+    overflow: hidden;
+
+    &.expanded {
+      opacity: 1;
+      pointer-events: auto;
+      width: $button-action-width;
+      box-shadow: $anatomy-box-shadow-medium;
+      transition-property: width, box-shadow;
+      border-top-right-radius: 0;
+
+      & + .button {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .button-action{
+        opacity: 1;
+      }
+
+      &.goUp {
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: 0;
+
+        & + .button {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          border-bottom-left-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+        }
+      }
+    }
+
+    &.goUp {
+      top: auto;
+      bottom: 100%;
+    }
+
+    &.goRight {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  .button-action {
+    padding: $increment*2 $closedFieldMargin;
+    cursor: pointer;
+    opacity: 0;
+    min-width: $button-action-width;
+    @extend .text;
+    transition: opacity $transition-quick $easing-curve;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: rgba($color-light-blue, 0.04);
+    }
+
+    &.icon {
+      padding-left: $closedFieldMargin + $icon-small + $icon-button-margin;
+
+      &:before {
+        content: "";
+        width: $icon-small;
+        height: $icon-small;
+        @include centerAbsV;
+        left: $closedFieldMargin;
+        opacity: 0.5;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      &.profile:before {background-image: url("../img/icon_profile_16.svg");}
+      &.mail:before {background-image: url("../img/icon_mail_16.svg");}
+      &.tag:before {background-image: url("../img/icon_tag_16.svg");}
+      &.lock:before {background-image: url("../img/icon_lock_16.svg");}
+
+      &.settingsBlue:before {background-image: url("../img/icon_settings_16-blue.svg");}
+      &.profileBlue:before {background-image: url("../img/icon_profile_16-blue.svg");}
+      &.lockBlue:before {background-image: url("../img/icon_lock_16-blue.svg");}
+      &.moneyBlue:before {background-image: url("../img/icon_money_16-blue.svg");}
+    }
+
+    .action-keyboard {
+      text-transform: uppercase;
+      color: $color-text-light;
+    }
+  }
+}
+
+.button-dropdown-group-wrap {
+  display: flex;
+
+  .buttonWrap:not(.icon-only-action) .button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 1px solid rgba($color-white, 0.5);
+  }
+
+  .buttonWrap.icon-only-action .button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 1px solid transparent;
+
+    // Super hacky for the purposes of this demo
+    .button-icon-wrap {
+      width: $icon-small;
+      background-image: url("../img/dropdown-arrow-white.svg");
+    }
+  }
+
+  .buttonWrap.secondary{
+    &:not(.icon-only-action) .button {
+      border-right-color: $color-border-gray-dark;
+
+      &:hover {
+        border-right-color: $color-text-light;
+      }
+    }
+
+    &.icon-only-action .button .button-icon-wrap {
+      background-image: url("../img/dropdown-arrow.svg");
+      opacity: 0.5; // i'm trying to mimic the svg as $color-text as i can't manipulate svg backgrounds
+    }
+  }
+
+  .buttonWrap.knockout {
+    &:not(.icon-only-action) .button {
+      border-right-color: $color-white;
+    }
+  }
+}
+
+.button {
+  border-radius: $border-radius;
+  outline: 0;
+  font-family: AvenirNext;
+  border: 0;
+  display: block;
+  cursor: pointer;
+  padding: 0 $button-hpadding;
+  font-weight: $font-weight-semi-bold;
+  transition: $transition-quick $easing-curve;
+  text-overflow: ellipsis;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+
+// defining classes to icons
+
+.icon-refresh {
+  &.icon-medium { background: url("../img/icon_refresh_24.svg") center center no-repeat; }
+}
+.icon-filters {
+  &.icon-small {
+    &.light-blue { background: url("../img/icon_filters_16-blue.svg") center center no-repeat; }
+  }
+}

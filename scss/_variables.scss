@@ -1,0 +1,127 @@
+// Font weights
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-semi-bold: 500;
+$font-weight-bold: 600;
+
+// Primary colors
+$color-light-blue: #003BDE;
+$color-oscar-blue: #001659;
+$color-pink: #FF8F91;
+$color-red: #F75C43;
+$color-teal: #28DCAA;
+$color-yellow: #FCB138;
+
+// Gray colors
+$color-blue-black: #001837;
+$color-border-gray-dark: #dee1e5;
+$color-border-gray: #efefef;
+$color-gray-background-cool: #f9f9f9;
+$color-gray-background-warm: #fbfaf9;
+$color-text-light: #99a8bb;
+$color-text-medium: #7b8a9d;
+$color-text: #5c6b7e;
+
+// Utility colors
+$color-black: #000;
+$color-white: #fff;
+
+// Other random, useful anatomy variables.
+$border-radius: 4px;
+$transition-quick: 0.2s;
+$transition-normal: 0.4s;
+$color-lightest-shadow: rgba($color-blue-black, .1);
+$color-light-shadow: rgba($color-blue-black, .2);
+$color-normal-shadow: rgba($color-blue-black, .3);
+$anatomy-box-shadow-extra-small: 0 1px 2px $color-normal-shadow;
+$anatomy-box-shadow-small: 0 3px 5px $color-light-shadow;
+$anatomy-box-shadow-medium: 0 8px 16px $color-lightest-shadow;
+$anatomy-box-shadow-large: 0 20px 35px $color-lightest-shadow;
+$tooltip-popover-max-width: 300px;
+
+// My custom variables for this project.
+$easing-curve : cubic-bezier(.7,0,.3,1);
+$buffer-lrg: 40px;
+$buffer-med: 30px;
+$buffer-sml: 15px;
+$min-width: 580px; // 320px
+$lrg-breakpt: 1010px;
+$med-breakpt: 710px;
+$max-width: 1490px;
+$page-margin: 40px;
+$gutter-size: 30px;
+$dd-max-height: 250px;
+$standard-buffer: 20px;
+
+$topBarHeight : 60px;
+$subheaderHeight : 55px;
+
+$increment: 4px;
+$error-text-line-height: 16px;
+$subtext-line-height: 20px;
+
+$text-font-size: 14px;
+$text-line-height: 22px;
+
+$primary-text-font-size: 16px;
+$primary-text-line-height: 24px;
+
+$error-text-padding: $increment;
+
+$icon-xsmall: 8px;
+$icon-small: 16px;
+$icon-medium: 24px;
+$icon-large: 32px;
+$icon-button-margin: 8px;
+$icon-dropdown-margin: 8px;
+
+// this is the amount of extra room that appears below
+// an expanded dropdown's .option-prompt label
+$addedPadding 								: $increment * 4;
+$addedHPadding                : $increment * 3;
+$slideout-size                : 420px;
+
+$headerPadding								: $increment;
+$headerPadding-small-closed		: $headerPadding;
+$headerPadding-small-open			: $headerPadding;
+$headerPadding-medium-open		: $headerPadding * 2;
+$headerPadding-medium-closed	: $headerPadding;
+
+$prePadding 									: $increment * 2;
+$postPadding 									: $increment * 2;
+$xsmall-padding								: $increment * 3;
+$prePadding-small             : $increment;
+$postPadding-small            : $increment;
+
+// button variables
+$button-font-small            : $text-line-height;
+$button-font-medium           : $text-line-height;
+$button-font-large            : $text-line-height;
+$button-font-xlarge           : $primary-text-line-height;
+
+$button-small                 : 1 + $increment*2 + $button-font-small + $increment*2 + 1;
+$button-medium                : 1 + $xsmall-padding + $button-font-medium + $xsmall-padding + 1;
+$button-large                 : 1 + $prePadding-small + $subtext-line-height + $headerPadding-small-closed + $button-font-large + $postPadding-small + 1;
+$button-xlarge                : 1 + $prePadding + $subtext-line-height + $headerPadding-medium-closed + $button-font-xlarge + $postPadding + 1;
+$button-padding-small         : ($button-small - $button-font-small)/2;
+$button-padding-medium        : ($button-medium - $button-font-medium)/2;
+$button-padding-large         : ($button-large - $button-font-large)/2;
+$button-padding-xlarge        : ($button-xlarge - $button-font-xlarge)/2;
+$button-hpadding              : $increment * 6;
+$button-hpadding-icononly			: $icon-small;
+$button-hpaddingWithIcon      : $button-hpadding;
+
+// variables only used in css
+$optionsWrapper-vpadding			: $increment * 4;
+$option-vpadding							: $increment * 3;
+$closedFieldMargin						: $increment * 4;
+$disabledOpacity : 0.5;
+$button-action-width: 276px;
+
+// z-index
+$z-grid: 500;
+$z-loading: 50;
+$z-headerbar: 200;
+$z-slideout: 250;
+$z-popover: 150;
+$z-modal: 300;

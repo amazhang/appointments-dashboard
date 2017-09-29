@@ -1,0 +1,120 @@
+.sectionTitle.teams {
+  display: flex;
+  align-items: baseline;
+
+  .popover-wrap {
+    margin-left: $buffer-sml;
+  }
+
+  .popover-content {
+    margin-bottom: 20px;
+  }
+}
+
+.sectionTitle.permissions {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+
+  & > * {
+    white-space: nowrap;
+  }
+
+  .fieldContainer {
+    width: 200px;
+    margin: 0 $buffer-sml;
+  }
+
+  .title2{
+    line-height: $button-large;
+  }
+}
+
+.profile-form {
+  @include setColsNoMargin(6);
+}
+
+section.teams {
+  padding-bottom: 80px - $buffer-med;
+}
+
+table.permissions {
+  &.org-only {
+    td.team,
+    th.team {
+      display: none;
+    }
+  }
+
+  .permission-col {
+    @include setCols(8);
+    padding-right: $buffer-med;
+  }
+
+  .checkbox-col {
+    text-align: center;
+    width: maxWidthColumns(2);
+    padding-left: $buffer-sml;
+    padding-right: $buffer-sml;
+  }
+
+  .org {
+    background-color: $color-gray-background-warm;
+  }
+
+  th.checkbox-col {
+    & > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+  }
+
+  .checkbox {
+    margin: 0 auto;
+
+    &.disabled {
+      background-color: $color-gray-background-cool;
+      border-color: $color-border-gray-dark;
+      cursor: not-allowed;
+    }
+  }
+}
+
+
+.modal .title2 {
+  margin-bottom: $buffer-lrg;
+}
+
+.modal .datalist {
+  margin: $buffer-med 0 10px 0;
+}
+
+.modal .cta-footer {
+  margin-top: $buffer-lrg;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.modal.fullscreen .modal-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.intro-modal-wrap {
+  width: 100%;
+  max-width: maxWidthColumns(8);
+  margin: 0 auto;
+  text-align: center;
+
+  ul li {
+    text-align: center;
+    list-style: none;
+  }
+
+  .button {
+    margin-top: $buffer-lrg;
+  }
+}

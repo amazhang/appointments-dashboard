@@ -1,0 +1,147 @@
+{{#appointments}}
+  <div class="slideoutTitle">
+    <div class="slideoutTitleInner">
+      <div class="text">{{ dateObject.dayOfWeekShort }}. {{ dateObject.dateString }}</div>
+      <div class="intro">{{ decimalToTime startTime }} – {{ decimalToTime endTime }}</div>
+      <div class="status">
+        <div class="{{ status }} withicon">{{ status }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="slideout-sections-wrap">
+    <div class="slideout-section appointment" data-id="{{ _id }}">
+      <div class="secondaryTitle">Appointment details</div>
+      <div class="data-list halfs">
+        <div class="data-row type">
+          <div class="title4 key">Type of appointment</div>
+          <div class="text value">{{ type }}</div>
+        </div>
+        {{#if reasonForVisit }}
+          <div class="data-row reason">
+            <div class="title4 key">Reason for visit</div>
+            <div class="text value">{{ reasonForVisit }}</div>
+          </div>
+        {{/if}}
+        <div class="data-row provider">
+          <div class="title4 key">Provider</div>
+          <div class="text value">
+            <div>{{ provider.name }}</div>
+            <div class="subText"><a href="#" class="textLink">View availability settings</a></div>
+            <div class="subText"><a href="#" class="textLink">View account</a></div>
+          </div>
+        </div>
+        <div class="data-row location">
+          <div class="title4 key">Office location</div>
+          <div class="text value">
+            <div>{{ provider.addressLine1 }}</div>
+            <div>{{ provider.addressLine2 }}</div>
+            <div>{{ provider.city }}, {{ provider.state }} {{ provider.zip }}</div>
+          </div>
+        </div>
+        <div class="data-row no-show">
+          <div class="title4 key">No-show</div>
+          <div class="subText value">
+            <div class="toggleSwitch noShow {{ noShow }}">
+              <div class="on-text">Yes</div>
+              <div class="off-text">No</div>
+            </div>
+            <div class="toggleSwitchTextWrap {{ noShow }}">
+              <div class="toggleSwitchText off">Patient showed up on time.</div>
+              <div class="toggleSwitchText on">Patient never showed up.</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-row late-cancel">
+          <div class="title4 key">Late cancellation</div>
+          <div class="subText value">
+            <div class="toggleSwitch lateCancel {{ lateCancel }}">
+              <div class="on-text">Yes</div>
+              <div class="off-text">No</div>
+            </div>
+            <div class="toggleSwitchTextWrap {{ lateCancel }}">
+              <div class="toggleSwitchText off">Patient showed up on time.</div>
+              <div class="toggleSwitchText on">Patient canceled appt. late.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slideout-section patient">
+      <div class="secondaryTitle">Patient information</div>
+      <div class="data-list halfs">
+        <div class="data-row name">
+          <div class="title4 key">Name</div>
+          <div class="text value">
+            <div>{{ member.firstName }} {{ member.lastName }}</div>
+            <div class="subText"><a href="#" class="textLink">View clinical history</a></div>
+          </div>
+        </div>
+        <div class="data-row gender">
+          <div class="title4 key">Gender</div>
+          <div class="text value">{{ member.gender }}</div>
+        </div>
+        <div class="data-row dob">
+          <div class="title4 key">Date of birth</div>
+          <div class="text value">{{ member.dateOfBirth }}</div>
+        </div>
+        <div class="data-row oscarid">
+          <div class="title4 key">Oscar ID</div>
+          <div class="text value">
+            <div>{{ member.oscarID }}</div>
+            <div class="eligibility-wrap">
+              <div class="eligibility">{{ member.planStatus }}</div>
+
+              {{#if (eq member.planStatus "suspended") }}
+                <div class="tooltip-wrapper">
+                  <img class="tooltip-icon flip" src="img/icon_alert_16-yellow.svg">
+                  <div class="tooltip">
+                    <div class="tooltip-inner">
+                      <div class="subText">This patient's coverage is not guaranteed.</div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class="data-row address">
+          <div class="title4 key">Address</div>
+          <div class="text value">
+            <div>{{ member.address.addressLine1 }}</div>
+            <div>{{ member.address.addressLine2 }}</div>
+            <div>{{ member.address.cityState }} {{ member.address.zip }}</div>
+          </div>
+        </div>
+        <div class="data-row phone">
+          <div class="title4 key">Phone</div>
+          <div class="text value">{{ member.phone }}</div>
+        </div>
+        <div class="data-row email">
+          <div class="title4 key">Email</div>
+          <div class="text value">{{ member.email }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slideout-section_footer">
+    <div class="buttonWrap fieldwrap primary medium">
+      <div class="button">View member plan and eligibility</div>
+    </div>
+
+    {{#if (eq status "canceled") }}
+      <div class="buttonWrap fieldwrap secondary medium uncancelCTA">
+        <div class="button">Marked as canceled - Undo</div>
+      </div>
+    {{else}}
+      <div class="buttonWrap fieldwrap secondary medium cancelCTA {{#if noShow }}disabled{{/if}}">
+        <div class="button">
+          {{#if (eq status "booked") }}
+            Cancel appointment
+          {{else}}
+            Mark as canceled
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+{{/appointments}}

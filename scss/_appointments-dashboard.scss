@@ -1,0 +1,348 @@
+.dashboard-header {
+  padding-top: $buffer-lrg - $buffer-sml;
+  padding-bottom: $buffer-lrg - $buffer-sml;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+  .pageTitle,
+  .actions {
+    margin: $buffer-sml 0;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+  }
+  .action-wrap {
+    margin-right: $gutter-size / 2;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .dropdown {
+      width: 200px;
+    }
+  }
+}
+
+.appointments-list {
+  padding-top: 0;
+
+  &.all-providers {
+    .appt-wrapper {
+      display: flex;
+    }
+  }
+  &.claudia-roberts-only {
+    .appt-wrapper:not(.claudia-roberts) {
+      display: none;
+    }
+  }
+  &.karen-mcadoo-only {
+    .appt-wrapper:not(.karen-mcadoo) {
+      display: none;
+    }
+  }
+
+  .list-wrap {
+    width: 100%;
+  }
+
+  .list-row {
+    display: flex;
+    width: 100%;
+  }
+
+  .col {
+    width: percentageColumns(3, $gutter-size, 10);
+    // max-width: maxWidthNoMargins(3, $gutter-size, 10);
+    margin-left: $gutter-size;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.date {
+      width: percentageColumns(2);
+      // max-width: maxWidthNoMargins(2);
+    }
+
+    &.status {
+      width: percentageColumns(1, $gutter-size, 10);
+      // max-width: maxWidthNoMargins(1, $gutter-size, 10);
+    }
+  }
+
+  .title-row {
+    background-color: $color-white;
+    padding: $buffer-sml 0;
+    border-bottom: 1px solid $color-border-gray-dark;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 115px;
+    z-index: 3;
+  }
+
+  .appointment-fields {
+    display: flex;
+  }
+
+  .appointments-wrapper,
+  .appointment-fields {
+    width: percentageColumns(10);
+    // max-width: maxWidthNoMargins(10);
+    margin-left: $gutter-size;
+  }
+
+  .dateWrap {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 115px + 53px;
+    // z-index: $z-headerbar;
+    // padding: $standard-buffer 0;
+    padding: $buffer-med 0;
+  }
+
+  .appointments-wrapper {
+    background: $color-gray-background-warm url("../img/background_light-stripes.png");
+    position: relative;
+
+    &:after {
+      content: "No appointments scheduled";
+      @extend .subText;
+      text-align: center;
+      display: block;
+      @include centerAbsV;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .appt-wrapper {
+    display: flex;
+    border-top: 1px solid $color-border-gray-dark;
+    background-color: $color-white;
+    position: relative;
+    z-index: 1;
+    // transition: box-shadow $transition-quick $easing-curve;
+    cursor: pointer;
+
+    &::after,
+    &::before {
+      position: absolute;
+      height: 100%;
+      width: $button-hpadding;
+      background-color: $color-white;
+      border: 1px solid $color-border-gray-dark;
+      // transition: box-shadow $transition-quick $easing-curve;
+      z-index: -1;
+    }
+
+    &::before {
+      top: -1px;
+      right: 100%;
+      border-right: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+
+    &::after {
+      top: -1px;
+      left: 100%;
+      border-left: 0;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    &:not(.selected):hover {
+      box-shadow: $anatomy-box-shadow-medium;
+      z-index: 2;
+
+      &::after,
+      &::before {
+        content: "";
+        box-shadow: $anatomy-box-shadow-medium;
+      }
+    }
+
+    &.selected {
+      background-color: #F5F7FE;
+
+      &::after,
+      &::before {
+        content: "";
+        background-color: #F5F7FE;
+      }
+
+      .col {
+        background: transparent;
+      }
+
+      &:hover {
+        background-color: #EBF0FE;
+
+        &::after,
+        &::before {
+          background-color: #EBF0FE;
+        }
+      }
+    }
+
+    &:first-child {
+      border-top: 0;
+
+      &:hover {
+        border-top: 1px solid $color-border-gray-dark;
+      }
+    }
+
+    .col {
+      // padding: $standard-buffer 0;
+      padding: $buffer-med 0;
+      background-color: $color-white;
+    }
+  }
+
+  .date-row {
+    border-top: 1px solid $color-border-gray-dark;
+    // padding: $buffer-sml 0;
+
+    .col {
+      &.patient .title4::before {
+        background: url("../img/icon_idcard_16-lightgray.svg") center center no-repeat;
+      }
+      &.patient .eligibility {
+        display: flex;
+        align-items: center;
+
+        .tooltip-wrapper {
+          margin-left: 5px;
+        }
+      }
+      &.provider .title4::before {
+        background: url("../img/icon_stethoscope_16-lightgray.svg") center center no-repeat;
+      }
+      &.status {
+        .withicon {
+          text-transform: capitalize;
+        }
+      }
+
+      .eligibility > .text {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.withicon {
+  position: relative;
+
+  &::before {
+    content: "";
+    @include centerAbsV;
+    right: 100%;
+    margin-right: $icon-button-margin;
+    width: $icon-small;
+    height: $icon-small;
+    background-size: contain;
+  }
+}
+
+.status {
+
+  .complete {
+    &::before {
+      background: url("../img/icon_circlecheckmark_16-green.svg") center center no-repeat;
+    }
+  }
+
+  .booked {
+    &::before {
+      background: url("../img/icon_booked_16-blue.svg") center center no-repeat;
+    }
+  }
+
+  .canceled,
+  .no-show {
+    &::before {
+      background: url("../img/icon_incomplete_16-red.svg") center center no-repeat;
+    }
+  }
+}
+
+
+.slideout {
+  .status .withicon {
+    margin-left: $icon-small + $icon-button-margin;
+    text-transform: capitalize;
+  }
+
+  .data-row.gender .value,
+  .data-row.oscarid .eligibility {
+    text-transform: capitalize;
+  }
+
+  .eligibility-wrap,
+  .potential-noshow-wrap {
+    display: flex;
+    align-items: center;
+
+    .tooltip-wrapper {
+      margin-left: $icon-button-margin / 2;
+    }
+  }
+  .data-row {
+    &.oscarid .value,
+    &.late-cancel .value,
+    &.no-show .value {
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .toggleSwitchTextWrap {
+    &.false {
+      .off { display: block; }
+      .on { display: none; }
+    }
+
+    &.true {
+      .off { display: none; }
+      .on { display: block; }
+    }
+
+    .toggleSwitchText { padding-top: 5px; }
+  }
+}
+
+.modal.cancelAppointment {
+  .cancelReason {
+    margin: $buffer-med 0 $standard-buffer 0;
+  }
+  .full-width-cta-wrap {
+    display: flex;
+    // justify-content: space-between;
+    margin-top: $buffer-lrg;
+    justify-content: flex-end;
+  }
+  .cancelNotifying { margin-top: 10px; }
+  .full-width-modal-cta {
+    // width: 100%;
+
+    &:first-child {
+      margin-right: $buffer-sml;
+    }
+
+    .buttonWrap {
+      // display: block;
+    }
+  }
+}

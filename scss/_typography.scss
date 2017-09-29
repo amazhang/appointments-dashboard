@@ -1,0 +1,89 @@
+@mixin typography-element {
+  font-family: AvenirNext;
+  letter-spacing: .15px;
+}
+
+.pageTitle {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 38px;
+  line-height: 52px;
+}
+
+.title1 {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 28px;
+  line-height: 38px;
+}
+
+.title2 {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.title3 {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 16px;
+  font-weight: $font-weight-semi-bold;
+  line-height: $primary-text-line-height;
+}
+
+.title4 {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 14px;
+  font-weight: $font-weight-semi-bold;
+  line-height: $text-line-height;
+}
+
+.intro {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 21px;
+  line-height: 32px;
+}
+
+.primaryText {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: $primary-text-font-size;
+  line-height: $primary-text-line-height;
+}
+
+.text {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: $text-font-size;
+  line-height: $text-line-height;
+}
+
+.subText {
+  @include typography-element;
+  color: $color-text;
+  font-size: 12px;
+  line-height: $subtext-line-height;
+}
+
+.secondaryTitle {
+  @include typography-element;
+  color: $color-blue-black;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+// .title4 + .text,
+// .title4 + .subText, {
+//   margin-top: 10px;
+// }
+//
+// .title1 + .intro {
+//   margin-top: $buffer-lrg;
+// }
+//
+// .intro + .intro {
+//   margin-top: 20px;
+// }

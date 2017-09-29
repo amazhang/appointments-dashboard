@@ -1,0 +1,526 @@
+// generic field wrapper,
+// wrapped on all types of fields
+.fieldwrap {
+  position: relative;
+  width: 100%;
+
+  &.bottomMargin {
+    margin-bottom: $buffer-lrg;
+  }
+
+  input {
+    outline: 0;
+  }
+
+  .field {
+    // max-width: 300px;
+  }
+
+  label.label {
+    position: absolute;
+    color: $color-text;
+    transition: $transition-quick $easing-curve;
+  }
+
+  .error-text {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: $error-text-padding;
+    font-size: 11px;
+    color: $color-red;
+    line-height: $error-text-line-height;
+
+    &:before {
+      content: "* ";
+      display: none;
+    }
+  }
+
+  &.error {
+
+    input[type='text'].field {
+      border-color: $color-red;
+
+      &:hover, &:focus {
+        border-color: $color-red;
+      }
+
+      &:focus {
+        & ~ .underline { width:0%; }
+      }
+
+      &:hover:not(:focus) + label.label,
+      &:focus + label.label {
+        color: $color-red;
+      }
+    }
+
+    label.label,
+    input[type='text'].field.nonempty + label.label {
+      color: $color-red !important;
+    }
+
+    .error-text:before {
+      display: inline;
+    }
+  }
+}
+//
+
+
+
+.tf input[type='text'].field {
+  @include placeholder {
+    opacity: 0;
+    transition: $transition-quick $easing-curve;
+  }
+}
+.tf.noheader input[type='text'].field:focus {
+  @include placeholder {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+// Generic CSS grouped by size.
+.small, .xsmall {
+  label, input[type='text'] {
+    @extend .text;
+  }
+}
+
+.medium {
+  label, input[type='text'] {
+    @extend .primaryText;
+  }
+}
+//
+
+
+
+
+
+
+// Generic CSS grouped by type
+// Open:
+.open {
+
+  input[type='text'].field.disabled {
+    cursor: not-allowed;
+    color: $color-text-light;
+    border-bottom: 1px dashed $color-text-light;
+
+    &:hover {
+      border-color: $color-text-light;
+
+      &:not(:focus) + label {
+        color: $color-text-light;
+      }
+    }
+
+    & + label.label,
+    &.nonempty + label.label {
+      color: $color-text-light !important;
+    }
+  }
+
+  // Within, grouped by size / header
+  // Open (small):
+  &.small, &.small.header .dropdown {
+
+    // Open (small): declaring height
+    // height=border + space + line height + space + label
+    height: $prePadding-small + $text-line-height + $headerPadding-small-open + $subtext-line-height + 1px;
+
+    input[type='text'].field{
+      height: 1px + $postPadding-small + $text-line-height;
+      padding-bottom: $prePadding-small;
+    }
+
+    // Open (small): shows transition of label moving to the upper corner and font shrinking
+    &.nonempty .label,
+    &.header input[type='text'].field:focus + label,
+    &.header input[type='text'].field.nonempty + label {
+      @extend .subText;
+      color: $color-text;
+      transform: translateY( - $text-line-height - $headerPadding-small-open - 1px );
+    }
+
+    &:hover.nonempty .label,
+    &:hover.header input[type='text'].field.nonempty + label, 
+    &.header input[type='text'].field:focus + label {
+      color: $color-blue-black;
+    }
+
+    // Open (small): declaring height for no headers.
+    &.noheader, &.noheader.small .dropdown {
+      height: $postPadding-small + $text-line-height + 1px;
+
+      input[type='text'].field:focus + label, input[type='text'].field.nonempty + label {
+        opacity: 0;
+      }
+    }
+
+    label.label {
+      bottom: $postPadding-small;
+    }
+  }
+
+
+  // Open (medium):
+  &.medium, &.medium.header .dropdown {
+    height: $prePadding + $primary-text-line-height + $headerPadding-medium-open + $subtext-line-height + 1px;
+
+    input[type='text'].field{
+      height: $postPadding + $primary-text-line-height + 1px;
+    }
+
+    // Open (medium): label shrink and upper corner transition
+    &.nonempty .label,
+    &.header input[type='text'].field:focus + label,
+    &.header input[type='text'].field.nonempty + label {
+      @extend .subText;
+      transform: translateY( - $primary-text-line-height - $headerPadding-medium-open - 1px);
+    }
+
+    &:hover.nonempty .label,
+    &:hover.header input[type='text'].field.nonempty + label,
+    &.header input[type='text'].field:focus + label {
+      color: $color-blue-black;
+    }
+
+    // Open (medium): no header height and hiding labels.
+    &.noheader, &.noheader.medium .dropdown {
+      height: $postPadding + $primary-text-line-height + 1px;
+
+      input[type='text'].field:focus + label, input[type='text'].field.nonempty + label {
+        opacity: 0;
+      }
+    }
+  }
+  //
+
+
+
+
+
+  // Open: text box (textarea later should be here).
+  input[type='text'] {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid $color-border-gray-dark;
+    padding: 0;
+    padding-bottom: $prePadding;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    transition: border-color $transition-quick $easing-curve;
+
+    &:hover {
+      border-color: $color-text-light;
+
+      &:not(:focus) + label {
+        color: $color-blue-black;
+      }
+    }
+
+    &:focus {
+      // using underline (below) in lieu of: border-color: $color-blue-black;
+      & ~ .underline {
+        width: 100%;
+      }
+
+      & + label {
+        color: $color-blue-black;
+      }
+    }
+  }
+
+  .underline {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: $color-blue-black;
+    z-index: 1;
+    width: 0%;
+    height: 1px;
+    transition: $transition-normal $easing-curve;
+  }
+
+  label.label {
+    bottom: $postPadding;
+  }
+}
+// End of Open
+
+
+
+
+
+
+
+// wooooot, closed inputs!
+.closed {
+  .underline {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  // Closed: xsmall height
+  &.xsmall {
+
+    &.header {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+
+      &:hover {
+        label.label, input {
+          border-color: $color-text-light;
+          color: $color-blue-black !important;
+        }
+
+        label.label:after {
+          // background-color: $color-text-light;
+        }
+      }
+
+      &.error {
+        label.label,
+        input[type='text'].field:focus + label.label,
+        input[type='text'].field.nonempty + label.label, {
+          border-color: $color-red;
+          color: $color-red;
+
+          &:after {
+            // background-color: $color-red;
+          }
+        }
+      }
+
+      .label {
+        position: relative;
+        top: auto;
+        transform: translateY(0);
+        left: auto;
+        white-space: nowrap;
+        height: $xsmall-padding + $text-line-height + $xsmall-padding + 2px;
+        padding: $xsmall-padding $buffer-sml $xsmall-padding $closedFieldMargin;
+        background-color: $color-white;
+        border: 1px solid $color-border-gray-dark;
+        border-right: 0;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        transition: border-color $transition-quick $easing-curve;
+        pointer-events: auto;
+        cursor: text;
+
+        &:after {
+          content: "";
+          background-color: $color-border-gray-dark;
+          width: 1px;
+          height: calc(100% - #{$increment*4} );
+          position: absolute;
+          right: 0;
+          top: $increment * 2;
+          display: none;
+          transition: $transition-quick $easing-curve;
+        }
+      }
+
+      input[type='text'].field {
+        padding-left: $buffer-sml;
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        height: $xsmall-padding + $text-line-height + $xsmall-padding + 2px;
+
+        &:focus + label.label,
+        &.nonempty + label.label {
+          color: $color-text;
+          font-size: $text-font-size;
+          line-height: $text-line-height;
+
+          &:after {
+            display: block;
+          }
+        }
+
+        &:focus + label.label {
+          border-color: $color-blue-black;
+          color: $color-blue-black;
+        }
+
+        &.disabled + label.label {
+          border-color: $color-border-gray-dark;
+          background-color: $color-border-gray;
+          color: $color-text-light;
+          font-size: $text-font-size;
+          line-height: $text-line-height;
+        }
+
+      }
+    }
+
+    input[type='text'].field {
+      padding: $xsmall-padding $closedFieldMargin;
+      height: $xsmall-padding + $text-line-height + $xsmall-padding + 2px;
+    }
+  }
+  //
+
+
+
+
+  // Closed (small)
+  &.small {
+
+    // Closed (small): no header generic
+    &.noheader {
+      input[type='text'].field {
+        padding: (($prePadding-small + $subtext-line-height + $headerPadding-small-closed + $postPadding-small)/2) $closedFieldMargin;
+      }
+    }
+
+    // Closed (small): header generic
+    &.header {
+      input[type='text'].field {
+        padding: ($prePadding-small + $subtext-line-height + $headerPadding-small-closed) $closedFieldMargin $postPadding-small $closedFieldMargin;
+      }
+
+      // Closed (small): Header transition (font transition is inherited).
+      input[type='text'].field.nonempty + label.label,
+      input[type='text'].field:focus + label.label,
+      .dropdown.nonempty .label {
+        transform: translateY(-$subtext-line-height - $headerPadding-small-closed/2 - 2px);
+      }
+    }
+
+    // Closed (small): Inputs and dropdown heights.
+    input[type='text'].field,
+    .dropdown {
+      height: 1px + $prePadding-small + $subtext-line-height + $headerPadding-small-closed + $text-line-height + $postPadding-small + 1px;
+    }
+  }
+  //
+
+
+
+
+
+
+  // Closed (medium):
+  &.medium{
+
+    // Closed (medium): no header generic
+    &.noheader input[type='text'].field {
+      padding: (($prePadding + $subtext-line-height + $headerPadding-medium-closed + $postPadding)/2) $closedFieldMargin;
+    }
+
+    // Closed (medium): header generic
+    &.header {
+      input[type='text'].field {
+        padding: ($prePadding + $subtext-line-height + $headerPadding-medium-closed) $closedFieldMargin $postPadding $closedFieldMargin;
+      }
+
+      // Closed (medium): header transition (font transition is inherited).
+      input[type='text'].field.nonempty + label.label,
+      input[type='text'].field:focus + label.label,
+      .dropdown.nonempty .label {
+        transform: translateY( - $subtext-line-height - $headerPadding-medium-closed/2 - 2px);
+      }
+    }
+
+    // Closed (medium): Inputs and dropdown heights.
+    input[type='text'].field,
+    .dropdown {
+      height: $prePadding + $subtext-line-height + $headerPadding-medium-closed + $primary-text-line-height + $postPadding + 2px;
+    }
+  }
+  //
+
+
+
+
+
+
+  // Closed: no header - Hiding the labels.
+  &.noheader {
+    input[type='text'].field.nonempty + label.label,
+    input[type='text'].field:focus + label.label {
+      opacity: 0;
+    }
+  }
+
+  // Closed: header - defining font transition
+  &.header {
+    input[type='text'].field.nonempty,
+    input[type='text'].field:focus {
+      & + label.label {
+        @extend .subText;
+      }
+    }
+
+    input[type='text'].field.nonempty.disabled {
+      & + label.label {
+        @extend .subText;
+        color: $color-text-light;
+      }
+    }
+
+    &:hover input[type='text'].field.nonempty + label,
+    input[type='text'].field:focus + label.label {
+      color: $color-blue-black;
+    }
+  }
+  //
+
+
+
+
+
+  // Closed: Inputs and dropdown (generic)
+  input[type='text'].field, .dropdown {
+    background-color: $color-white;
+    border: 1px solid $color-border-gray-dark;
+    width: 100%;
+    border-radius: $border-radius;
+    transition: border-color, $transition-quick $easing-curve;
+
+    &:hover {
+      border-color: $color-text-light;
+    }
+
+    &:focus {
+      border-color: $color-blue-black;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      color: $color-text-light;
+      background-color: #efefef;
+      border-color: $color-border-gray-dark;
+
+      & + label.label {
+        color: $color-text-light;
+      }
+    }
+  }
+  //
+
+
+
+  // Closed: Input labels.
+  label.label {
+    @include centerAbsV;
+    left: $closedFieldMargin;
+    pointer-events: none;
+  }
+}
+// End of closed
+

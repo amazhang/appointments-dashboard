@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>CirclePlus_32</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CirclePlus_32">
+            <g>
+                <polygon id="Fill-60" points="0 32 32 32 32 0 0 0"></polygon>
+                <path d="M16,2 C8.28,2 2,8.28 2,16 C2,23.72 8.28,30 16,30 C23.72,30 30,23.72 30,16 C30,8.28 23.72,2 16,2 M16,4 C22.627,4 28,9.373 28,16 C28,22.627 22.627,28 16,28 C9.373,28 4,22.627 4,16 C4,9.373 9.373,4 16,4 Z M22,15 L17,15 L17,10 L15,10 L15,15 L10,15 L10,17 L15,17 L15,22 L17,22 L17,17 L22,17 L22,15 Z" id="Combined-Shape" fill="#003BDE"></path>
+            </g>
+        </g>
+    </g>
+</svg>

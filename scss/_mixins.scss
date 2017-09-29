@@ -1,0 +1,134 @@
+@mixin prefix ( $property, $value... ) {
+  -webkit-#{$property}: $value;
+     -moz-#{$property}: $value;
+      -ms-#{$property}: $value;
+       -o-#{$property}: $value;
+          #{$property}: $value;
+}
+@mixin calc ( $property, $value... ) {
+    #{$property}: -moz-#{$value};
+    #{$property}: -webkit-#{$value};
+    #{$property}: -o-#{$value};
+    #{$property}: #{$value};
+}
+@mixin linear-gradient ($pos, $startColor, $endColor...){
+    background: $startColor; /* Old browsers */
+    background: -moz-linear-gradient($pos, $startColor,$endColor); /* FF3.6+ */
+    background: -webkit-linear-gradient($pos, $startColor,$endColor); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient($pos, $startColor,$endColor); /* Opera 11.10+ */
+    background: -ms-linear-gradient($pos, $startColor,$endColor); /* IE10+ */
+    background: linear-gradient(to $pos, $endColor,$startColor); /* W3C */
+}
+
+@mixin radial-gradient($from, $to) {
+    background-color: $from;
+    background: -moz-radial-gradient(center, circle closest-side, $from 0%, $to 100%);
+    background: -webkit-radial-gradient(center, circle closest-side, $from 0%, $to 100%);
+    background: -o-radial-gradient(center, circle closest-side, $from 0%, $to 100%);
+    background: -ms-radial-gradient(center, circle closest-side, $from 0%, $to 100%);
+    background: radial-gradient(center, circle closest-side, $from 0%, $to 100%);
+}
+
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal) {
+    @font-face {
+        font-family: $font-family;
+        font-weight: $weight;
+        font-style: $style;
+
+        src: url('../fonts/#{$file-path}.eot');
+        src: url('../fonts/#{$file-path}.eot?#iefix')   format('embedded-opentype'),
+             url('../fonts/#{$file-path}.woff')         format('woff'),
+             url('../fonts/#{$file-path}.ttf')          format('truetype');
+    }
+}
+
+@mixin placeholder {
+  $placeholders: ":-webkit-input" ":-moz" "-moz" "-ms-input";
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
+
+@mixin animation($animate...) {
+    $max: length($animate);
+    $animations: '';
+
+    @for $i from 1 through $max {
+        $animations: #{$animations + nth($animate, $i)};
+
+        @if $i < $max {
+            $animations: #{$animations + ", "};
+        }
+    }
+    -webkit-animation: $animations;
+    -moz-animation:    $animations;
+    -o-animation:      $animations;
+    animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+@mixin borderBox {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+@mixin contentBox {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+}
+
+@mixin centerAbsV {
+  top: 50%;
+  position: absolute;
+  transform: translateY(-50%);
+}
+@mixin centerAbsH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+@function maxWidthColumns($numColumns, $gutter:$gutter-size, $totalCols:12, $margin:$page-margin, $maxWidth:$max-width) {
+  @return ((($maxWidth - (2*$margin)) + $gutter) * ($numColumns / $totalCols)) - $gutter;
+}
+
+@function maxWidthNoMargins($numColumns, $gutter:$gutter-size, $totalCols:12, $maxWidth:$max-width) {
+  @return maxWidthColumns($numColumns, $gutter, $totalCols, 0, $maxWidth);
+}
+
+@function percentageColumns($numColumns, $gutter:$gutter-size, $totalCols:12) {
+  @return calc( (( #{$numColumns} / #{$totalCols})*100%) - (#{$gutter} * (#{$totalCols - $numColumns} / #{$totalCols})) );
+}
+
+@mixin setColsNoMargin($num, $totalCols:12) {
+  width: ($num / $totalCols) * 100%;
+}
+
+@mixin setCols($num, $gutter:$gutter-size, $totalCols:12, $margin:$page-margin, $maxWidth:$max-width){
+  width: percentageColumns($num, $gutter, $totalCols);
+  max-width: maxWidthColumns($num, $gutter, $totalCols, $margin, $maxWidth);
+}
+
+@mixin setColsCentered($num, $gutter:$gutter-size, $totalCols:12, $margin:$page-margin, $maxWidth:$max-width){
+  width: percentageColumns($num, $gutter, $totalCols);
+  max-width: maxWidthColumns($num, $gutter, $totalCols, $margin, $maxWidth);
+  margin:0 auto;
+}

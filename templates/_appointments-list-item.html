@@ -1,0 +1,46 @@
+{{#appointments}}
+  <div class="appt-wrapper {{ convertProviderName provider.name }}" id="{{_id}}">
+    <div class="col time">
+      <div class="secondaryTitle">{{ decimalToTime startTime }} – {{ decimalToTime endTime }}</div>
+      <span class="title4">{{ type }}</span>
+      {{#if reasonForVisit }}
+        <span class="text">— {{ reasonForVisit }}</span>
+      {{/if}}
+    </div>
+    <div class="col patient">
+      <div class="title4 withicon">{{ member.firstName }} {{ member.lastName }}</div>
+      <div class="eligibility">
+        <div class="text">{{ member.planStatus }}</div>
+
+        {{#if (shouldHaveTooltip member.planStatus potentialNoShow) }}
+
+          {{#if potentialNoShow}}
+            <div class="text">, Potential no-show</div>
+          {{/if}}
+
+          <div class="tooltip-wrapper">
+            <img class="tooltip-icon" src="img/icon_alert_16-yellow.svg">
+            <div class="tooltip">
+              <div class="tooltip-inner">
+                {{#if (eq member.planStatus "suspended") }}
+                  <div class="subText">· This patient's coverage is not guaranteed.</div>
+                {{/if}}
+                {{#if potentialNoShow }}
+                  <div class="subText">· This patient has a history of no-shows.</div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+      </div>
+    </div>
+    <div class="col provider">
+      <div class="title4 withicon">{{ provider.name }}</div>
+      <div class="text">{{ provider.address }}</div>
+    </div>
+    <div class="col status">
+      <div class="text {{ status }} withicon">{{ status }}</div>
+    </div>
+  </div>
+{{/appointments}}

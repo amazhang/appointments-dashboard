@@ -1,0 +1,539 @@
+// Dropdown specific
+.dd {
+
+
+  &.lessthanfive .dropdown.expanded .options {
+    height: auto;
+  }
+
+  &.open {
+
+    // Open dropdown:
+    .dropdown {
+      // Open dropdown: border underline - isn't same as text field code.
+      border-bottom: 1px solid $color-border-gray-dark;
+
+      // Open dropdown: collapsed arrow
+      &:after {
+        right: 0;
+      }
+
+      // Open dropdown: expanded specific
+      &.expanded {
+
+        // basically, hide everything.
+        border-color: transparent;
+
+        &:after, .view {
+          opacity: 0;
+        }
+      }
+
+      // Open dropdown: initial question position
+      .label {
+        position: absolute;
+        bottom: $postPadding;
+        left: 0;
+      }
+    }
+
+    &.header .dropdown.nonempty .view .selected {
+      position: absolute;
+      bottom: $postPadding;
+    }
+  }
+  // End of open dropdown
+
+
+
+
+  // Closed dropdown:
+  &.closed {
+
+    // Closed dropdown: header - positioning the selected answer
+    &.header .dropdown.nonempty .view .selected {
+      position: absolute;
+      bottom: $postPadding;
+    }
+
+    // Closed dropdown: header - positioning the selected answer
+    &.header.small .dropdown.nonempty .view .selected {
+      bottom: $postPadding-small;
+    }
+
+    // Closed dropdown: no header - positioning the selected answer
+    &.noheader .dropdown.nonempty .view .selected {
+      @include centerAbsV;
+    }
+
+    // Closed dropdown: collapsed arrow,
+    // height 100% to account for centering in various sized dropdowns
+    .dropdown:after {
+      height: 100%;
+      bottom: 0;
+      right: $buffer-sml;
+    }
+
+    // Closed dropdown: positioning the question.
+    &.small .label,
+    &.xsmall .label {
+      @include centerAbsV;
+    }
+    &.medium .label {
+      @include centerAbsV;
+    }
+
+    // Closed dropdown: positioning the question and selected answer wrapper.
+    .view {
+      padding-left: $buffer-sml;
+    }
+
+    // Closed dropdown: the options list
+    .options-wrap {
+      .option {
+        width: 100%;
+      }
+      .option-prompt {
+        line-height: $primary-text-line-height;
+      }
+    }
+  }
+  // End of closed dropdown
+
+
+
+
+
+  // Dropdown (small)
+  &.xsmall {
+    @extend .text;
+
+    // &.error {
+    //   .dropdown:after {
+    //     background: url("../img/dropdown-arrow-red_small.svg") center center no-repeat;
+    //     background-size: contain;
+    //   }
+    // }
+    .dropdown {
+      padding: $xsmall-padding 0;
+      height: ($xsmall-padding + 1px)*2 + $text-line-height;
+
+      // &:after {
+      //   width: 8px;
+      //   background: url("../img/dropdown-arrow_small.svg") center center no-repeat;
+      //   background-size: contain;
+      // }
+
+      .options-wrap {
+        .option-prompt {
+          padding-top: $xsmall-padding;
+          padding-bottom: $xsmall-padding;
+
+          // &:after {
+          //   width: 8px;
+          //   background: url("../img/dropdown-arrow-blue_small.svg") center center no-repeat;
+          //   background-size: contain;
+          // }
+        }
+      }
+
+      .options {
+        margin-top: ($xsmall-padding + 1) * 2 + $text-line-height
+      }
+    }
+  }
+  // End of Dropdown (xsmall)
+
+
+
+
+
+
+
+  // Dropdown (small)
+  &.small, &.xsmall {
+    @extend .text;
+
+    // Open dropdown (small): collapsed arrow positioned to prompt text, not height of container.
+    &.open .dropdown:after {
+      height: $text-line-height;
+    }
+
+    &.header.open .dropdown.nonempty .view .selected,
+    &.open .view .label {
+      bottom: $postPadding-small;
+    }
+
+    // Dropdown (small): options wrap / prompt
+    .options-wrap {
+      .option-prompt {
+        @extend .title4;
+      }
+    }
+
+    // Dropdown (small): options list, basically accounts for sticky prompt.
+    .options {
+      margin-top: 1px + $subtext-line-height + $headerPadding-small-open + $text-line-height + $postPadding-small + 1px;
+
+      // Dropdown (small): option item padding, padding-left is for icon.
+      .option {
+        padding: $option-vpadding $buffer-sml $option-vpadding ($buffer-sml + $icon-small + $icon-dropdown-margin);
+
+        &.selected {
+          @extend .title4;
+        }
+      }
+    }
+
+  }
+  // End of Dropdown (small)
+
+
+
+
+
+
+
+
+  // Dropdown (medium):
+  &.medium {
+    @extend .primaryText;
+
+    // Open dropdown (medium): collapsed arrow positioned to prompt text, not height of container.
+    &.open .dropdown:after {
+      height: $primary-text-line-height;
+    }
+
+    // Dropdown (medium): options wrap / prompt
+    &.closed .options-wrap {
+      .option-prompt {
+        padding-top: ($prePadding + $subtext-line-height + $headerPadding-medium-closed + $postPadding)/2;
+        padding-bottom: ($prePadding + $subtext-line-height + $headerPadding-medium-closed + $postPadding)/2;
+      }
+      .options {
+        margin-top: $prePadding + $subtext-line-height + $headerPadding-medium-closed + $primary-text-line-height + $postPadding + 1px;
+      }
+    }
+
+    // Dropdown (medium): options list, basically accounts for sticky prompt.
+    .options-wrap {
+      .option-prompt {
+        @extend .title3;
+      }
+
+      .options {
+        margin-top: ($addedPadding * 2) + $primary-text-line-height;
+      }
+
+      // Dropdown (medium): option item padding, padding-left is for icon.
+      .option {
+        padding: $option-vpadding $buffer-sml;
+        padding-left: ($buffer-sml + $icon-small + $icon-dropdown-margin);
+
+        &.selected {
+          @extend .title3;
+        }
+      }
+    }
+  }
+  // End of Dropdown (medium)
+
+
+
+
+
+
+  // Dropdown (error):
+  &.error {
+    .view .label,
+    .dropdown:not(.expanded):hover .view .label,
+    .dropdown:not(.expanded) .view .label {
+      color: $color-red;
+    }
+
+    .dropdown,
+    &:hover .dropdown {
+      border-color: $color-red;
+    }
+
+    .dropdown:after {
+        background: url("../img/dropdown-arrow-red.svg") center center no-repeat;
+        background-size: contain;
+        opacity: 0.8;
+    }
+  }
+  // End of Dropdown (error)
+
+
+
+
+
+
+  // Dropdown (disabled):
+  &.disabled {
+    .view .label,
+    &:hover .view .label,
+    .view .selected {
+      color: $color-text-light !important;
+    }
+
+    .dropdown,
+    &:hover .dropdown {
+      cursor: not-allowed;
+
+      &:after {
+        opacity: 0.2;
+      }
+    }
+
+    &.open .dropdown,
+    &.open:hover .dropdown {
+      border-bottom: 1px dashed $color-text-light !important;
+    }
+
+    &.closed .dropdown {
+      background-color: $color-border-gray;
+      border-color: $color-border-gray-dark;
+    }
+
+    &.open .underline {
+      display: none;
+    }
+  }
+  // End of Dropdown (disabled)
+
+
+
+  // Dropdown - no header
+  &.noheader {
+
+    // Dropdown - no header: hide header for nonempty and after dropdown is opened.
+    .nonempty .label,
+    .expanded .label {
+      opacity: 0;
+    }
+
+    &.small.open .dropdown .options-wrap{
+      // top: - $text-line-height;
+      top: - $addedPadding;
+    }
+
+    &.medium.open .dropdown .options-wrap{
+      // top: - $primary-text-line-height;
+      top: - $addedPadding;
+    }
+
+  }
+  // End of dropdown - no header
+
+
+
+
+
+
+
+
+
+  // Dropdown - header
+  &.header {
+
+    // Dropdown - header: hide selected (initially empty)
+    .view .selected {
+      opacity: 0;
+      transition: opacity $transition-quick $transition-quick/2 $easing-curve;
+    }
+
+    .nonempty {
+      .selected {
+        opacity: 1;
+      }
+    }
+
+  }
+  // End of dropdown - header
+
+
+
+
+
+
+
+
+
+  // Generic dropdown
+  .dropdown {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color $transition-normal $easing-curve;
+
+    &:hover {
+      // border-color: $color-text-light;
+
+      // Dropdown:hover - collapsed arrow
+      &:after {
+        opacity: 1;
+      }
+
+      .label {
+        color: $color-blue-black;
+      }
+    }
+
+
+    // Dropdown - collapsed arrow
+    &:after {
+      content: "";
+      width: $icon-small;
+      position: absolute;
+      bottom: $postPadding;
+      background: url("../img/dropdown-arrow.svg") center center no-repeat;
+      background-size: contain;
+      opacity: 0.5;
+      transition: $transition-quick $easing-curve;
+    }
+
+    // Dropdown - not empty state
+    &.nonempty {
+      .label {
+        @extend .subText;
+      }
+    }
+
+    // Dropdown expanded state
+    &.expanded {
+      overflow: visible;
+      z-index: 5;
+
+      .options {
+        height: $dd-max-height;
+        padding: $optionsWrapper-vpadding 0;
+      }
+
+      .options-wrap {
+        z-index: 3;
+        margin-bottom: $buffer-lrg;
+        pointer-events: auto;
+        opacity: 1;
+        transition: opacity $transition-normal 0s;
+      }
+    }
+
+    // Dropdown view positioning
+    .view {
+      height: 100%;
+      width: 100%;
+      transition: $transition-quick $easing-curve;
+    }
+
+    // Dropdown - Prompt styling, collapsed
+    .label {
+      color: $color-text;
+      transition: $transition-quick $easing-curve;
+    }
+
+    // Dropdown options window wrap.
+    .options-wrap {
+      background-color: $color-white;
+      border-radius: $border-radius;
+      border: 1px solid $color-border-gray-dark;
+      box-shadow: $anatomy-box-shadow-medium;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: calc(100% + 2px);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: $transition-normal $easing-curve;
+    }
+
+
+    // Dropdown options window prompt
+    .option-prompt {
+      padding: $addedPadding $buffer-sml;
+      cursor: pointer;
+      background-color: $color-gray-background-warm;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      transition: $transition-quick $easing-curve;
+
+
+      // Dropdown options window arrow (default is hidden).
+      &:after {
+        content: "";
+        display: none;
+        width: $icon-small;
+        height: $icon-small;
+        right: $buffer-sml;
+        position: absolute;
+        top: 50%;
+        margin-top: -8px;
+        background: url("../img/dropdown-arrow-blue.svg") center center no-repeat;
+        background-size: contain;
+        transform: rotate(0deg);
+        transition: transform $transition-quick $easing-curve;
+      }
+
+      // Dropdown options window prompt hover state
+      &:hover {
+        background-color: $color-border-gray;
+
+        &:after {
+          opacity: 1;
+        }
+      }
+    }
+
+    // Dropdown options list.
+    .options {
+      height: 0;
+      max-height: $dd-max-height;
+      overflow: auto;
+      transition: $transition-normal $easing-curve;
+
+      // Dropdown option
+      .option {
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        transition: $transition-quick $easing-curve;
+
+        &:not(.disabled):hover {
+          color: $color-blue-black;
+          background-color: rgba($color-light-blue, 0.04);
+        }
+
+        &.selected {
+          color: $color-light-blue;
+          // background-color: rgba($color-light-blue, 0.08);
+          position: relative;
+
+          &:after {
+            content: "";
+            left: $buffer-sml;
+            position: absolute;
+            top: $option-vpadding;
+            background: url("../img/icon_checkmark-blue.svg") center center no-repeat;
+            background-size: contain;
+            width: $icon-small;
+            height: $primary-text-line-height;
+          }
+        }
+
+        &.disabled {
+          color: $color-text-light;
+          opacity: $disabledOpacity;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+  // End of generic dropdown.
+}

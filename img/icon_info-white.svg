@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>24</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="24">
+            <g id="Info_24">
+                <polygon id="Fill-84" points="0 24 24 24 24 0 0 0"></polygon>
+                <path d="M12,1.5 C6.21,1.5 1.5,6.21 1.5,12 C1.5,17.79 6.21,22.5 12,22.5 C17.79,22.5 22.5,17.79 22.5,12 C22.5,6.21 17.79,1.5 12,1.5 M12,3 C16.97025,3 21,7.02975 21,12 C21,16.97025 16.97025,21 12,21 C7.02975,21 3,16.97025 3,12 C3,7.02975 7.02975,3 12,3 Z M11.98755,7.201875 C11.43855,7.201875 11.03805,7.626375 11.03805,8.101125 C11.03805,8.575875 11.43855,8.999625 11.98755,8.999625 C12.53655,8.999625 12.9618,8.613375 12.9618,8.101125 C12.9618,7.589625 12.53655,7.201875 11.98755,7.201875 Z M11.25,16.5 L12.75,16.5 L12.75,10.5 L11.25,10.5 L11.25,16.5 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

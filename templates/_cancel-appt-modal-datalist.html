@@ -1,0 +1,26 @@
+{{#appointments}}
+  <div class="data-list thirds">
+    <div class="data-row patient">
+      <div class="title4 key">Patient</div>
+      <div class="text value">{{ member.firstName }} {{ member.lastName }}</div>
+    </div>
+    <div class="data-row patient">
+      <div class="title4 key">Date and time</div>
+      <div class="value">
+        <div class="text">{{ dateObject.dayOfWeekShort}}. {{ dateObject.dateString }}</div>
+        <div class="text">{{ decimalToTime startTime }} – {{ decimalToTime endTime }}</div>
+      </div>
+    </div>
+    <div class="data-row patient">
+      <div class="title4 key">Reason for visit</div>
+      <div class="text value">{{ type }}{{#if reasonForVisit }} – {{ reasonForVisit }}{{/if}}</div>
+    </div>
+    <div class="data-row patient">
+      <div class="title4 key">Provider</div>
+      <div class="value">
+        <div class="text">{{ provider.name }}</div>
+        <div class="text">{{ provider.address }}</div>
+      </div>
+    </div>
+  </div>
+{{/appointments}}
