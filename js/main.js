@@ -4,9 +4,9 @@ var cssBezier = new Ease(new BezierEasing(0.7, 0, 0.3, 1));
 var pages = {
   current : "NA",
   init : function(animate) {
-    var onStartPage = pages.list.appointmentsListView;
+    var onStartPage = pages.list.appointmentsDashboard;
 
-    for( var key in pages.list) {
+    for (var key in pages.list) {
       var page = pages.list[key];
       if( page.hash === window.location.hash.substring(1) ){
         onStartPage = page;
@@ -44,21 +44,51 @@ var pages = {
     }
   },
   list : {
-    appointmentsListView : {
+    appointmentsDashboard : {
       container: ".page-content",
-      url:"pages/appointmentsListView.html",
-      hash:"listView",
-      init : function(animate) {
+      defaultView: "ListView",
+      url:"pages/appointmentsDashboardShell.html",
+      hash:"dashboard",
+      init : function(animate, view) {
+        view = typeof view === "undefined" ? this.defaultView : view;
         $(".loading-page").addClass("loading");
-        var onComplete = function(){
-          pages.gotoPage(pages.list.appointmentsListView, function() {
-
+        var onComplete = function() {
+          pages.gotoPage(pages.list.appointmentsDashboard, function() {
             buttons.renderButtons();
             dropdown.renderDropdowns();
+            pages.list["appointments" + view ].init(animate);
+          });
+        };
+        var time = animate ? 500 : 0;
+        setTimeout(function(){
+          onComplete();
+        }, time);
+      }
+    },
+    appointmentsListView : {
+      container: ".appointments-view",
+      url:"pages/appointmentsListView.html",
+      hash:"listView",
+      viewName: "ListView",
+      init : function(animate) {
+        if ($(".dashboard-header").length === 0) {
+          if (animate) {
+            $(".loading-page").addClass("loading").css("top", "");
+          }
+          pages.list.appointmentsDashboard.init(animate, pages.list.appointmentsListView.viewName);
+          return;
+        }
+        if (animate) {
+          $(".loading-page").css("top", $(".appointments-view").offset().top).addClass("loading");
+        }
 
+        var onComplete = function(){
+          pages.gotoPage(pages.list.appointmentsListView, function() {
+            $(".toggle.viewStyle").addClass("selected-state");
+            $(".toggle.viewStyle .toggle-btn[value='List']").addClass("sel");
             $.get("partial/_listdate.html", function(html){
               var $dateRows = $(html);
-              $(".list-wrap").append($dateRows);
+              $(".appointments-list").append($dateRows);
 
               // for each day in the template... should always be 7 but i guess we can customize.
               var dateIterator = appointments.startingWeek;
@@ -69,23 +99,16 @@ var pages = {
                 $dateRow.find(".written-out").html(dateObj.dateString);
                 dateIterator = appointments.incrementDate(dateIterator);
               }
+
+              if (appointments.appts === null) {
+                appointments.loadAppointments(function() {
+                  appointments.drawListView();
+                });
+              }
+              else {
+                appointments.drawListView();
+              }
             });
-
-            if (appointments.appts === null) {
-              appointments.loadAppointments(function() {
-                var appointmentsByDay = appointments.getAppointmentsByDaySorted(appointments.appts);
-                for (var key in appointmentsByDay) {
-                  if ($(".date-row#" + key).length === 1) {
-                    var apptsList = appointmentsByDay[key];
-                    var apptsListObj = { "appointments" : apptsList };
-                    global.render(apptsListObj, "appointments-list-item", $("#" + key + " .appointments-wrapper"));
-                  }
-                }
-
-                subheader.scrollHelper($("html").scrollTop());
-              });
-            }
-
           });
         };
         var time = animate ? 500 : 0;
@@ -94,6 +117,49 @@ var pages = {
         }, time);
       }
     },
+    appointmentsCalView : {
+      container: ".appointments-view",
+      url: "pages/appointmentsCalView.html",
+      hash: "calView",
+      viewName: "CalView",
+      init: function(animate) {
+        if ($(".dashboard-header").length === 0) {
+          if (animate) {
+            $(".loading-page").addClass("loading").css("top", "");
+          }
+          pages.list.appointmentsDashboard.init(animate, pages.list.appointmentsCalView.viewName);
+          return;
+        }
+        if (animate) {
+          $(".loading-page").css("top", $(".appointments-view").offset().top).addClass("loading");
+        }
+        var onComplete = function(){
+          pages.gotoPage(pages.list.appointmentsCalView, function() {
+            $(".toggle.viewStyle").addClass("selected-state");
+            $(".toggle.viewStyle .toggle-btn[value='Cal']").addClass("sel");
+
+            $(".calendar-booked-wrap").scrollTop(800);
+            $(".calendar-booked-wrap").scroll(function(){
+              var scrollPos = $(".calendar-booked-wrap").scrollTop();
+              $(".time-markers-inner").css("transform", "translateY(-" + scrollPos + "px)");
+            });
+
+            if (appointments.appts === null) {
+              appointments.loadAppointments(function() {
+                appointments.drawCalView();
+              });
+            }
+            else {
+              appointments.drawCalView();
+            }
+          });
+        };
+        var time = animate ? 500 : 0;
+        setTimeout(function(){
+          onComplete();
+        }, time);
+      }
+    }
   },
 };
 
@@ -215,10 +281,15 @@ global = {
     $("body.locked").removeClass("locked");
 
     //appointments
-    var id = $(".appt-wrapper.selected").attr("id");
+    var id = $(".appt-item.selected").attr("id");
     var apptObj = _.findWhere(appointments.appts, {_id: id});
-    appointments.redrawAppointmentRow(apptObj);
-    $(".appt-wrapper.selected").removeClass("selected");
+    if (pages.current === "listView") {
+      appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
+    }
+    else {
+      appointments.redrawAppointmentBlock( _.findWhere(appointments.appts, {_id: selectedId}) );
+    }
+    $(".appt-item.selected").removeClass("selected");
   },
   render : function(obj, tpl, target, replace, onComplete) {
     replace = typeof replace === "undefined" ? true : replace;
@@ -238,6 +309,9 @@ global = {
       });
       Handlebars.registerHelper("convertProviderName", function(providerName){
         return providerName.toLowerCase().replace(/\s/g, "-");
+      });
+      Handlebars.registerHelper("multiply", function(a, b){
+        return (parseFloat(a) * parseFloat(b)) + "px";
       });
 
       var template = Handlebars.compile(html);
@@ -286,8 +360,8 @@ appointments = {
   daysInMonths: [31,28,31,30,31,30,31,31,30,31,30,31],
   monthsShort: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   dow: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-  startingWeek: "2017-09-24 Sunday Sep.", // must be a sunday.
-  today: "2017-09-28 Thursday Sep.",
+  startingWeek: "2017-10-01 Sunday Oct.", // must be a sunday.
+  today: "2017-10-03 Tuesday Oct.",
   durationSettings: {
     "sick" : {
       "new" : 0.75,
@@ -327,6 +401,26 @@ appointments = {
       appointmentsByDay[key] = _.sortBy(apptsList, function(appt) {
         return appt.startTime;
       });
+    }
+    return appointmentsByDay;
+  },
+  getAppointmentsByDayAndProvider : function(appointmentsList) {
+    var appointmentsByDay = _.groupBy(appointmentsList, function(appt) {
+      return appt.date.split(" ")[0].replace(/-/g, "");
+    });
+    for (var key in appointmentsByDay) {
+      var apptsList = appointmentsByDay[key];
+      appointmentsByDay[key] = _.sortBy(apptsList, function(appt) {
+        return appt.provider.name;
+      });
+      appointmentsByDay[key] = _.groupBy(appointmentsByDay[key], function(appt) {
+        return appt.provider.name;
+      });
+      for (var provider in appointmentsByDay[key]) {
+        appointmentsByDay[key][provider] = _.sortBy(appointmentsByDay[key][provider], function(appt) {
+          return appt.startTime;
+        });
+      }
     }
     return appointmentsByDay;
   },
@@ -391,7 +485,65 @@ appointments = {
     apptObject.type = apptTypeArray[0];
     apptObject.reasonForVisit = apptTypeArray[1];
   },
-  redrawAppointmentRow : function(apptObject) {
+  drawListView : function() {
+    var appointmentsByDay = appointments.getAppointmentsByDaySorted(appointments.appts);
+    for (var key in appointmentsByDay) {
+      var apptsList = appointmentsByDay[key];
+      var apptsListObj = { "appointments" : apptsList };
+      global.render(apptsListObj, "appointments-list-item", $("#" + key + " .appointments-wrapper"));
+    }
+    subheader.scrollHelper($("html").scrollTop());
+  },
+  drawCalView : function() {
+    var apptsByDayByProv = appointments.getAppointmentsByDayAndProvider(appointments.appts);
+    var today = appointments.dateStrToObj(appointments.today).dateNoHyphens;
+
+    // render header
+    $.get("partial/_calendar-header.html", function(html){
+      var $calendarHeaderRow = $(html);
+      $(".calendar-header").empty();
+      var dateIterator = appointments.startingWeek;
+      // 7 days in a week, 7 showing at a time.
+      for (var i = 0; i < 7; i++) {
+        var dateObj = appointments.dateStrToObj(dateIterator);
+        var id = dateObj.dateNoHyphens;
+
+        $calendarHeaderRow.find(".date-wrap").html(dateObj.dayOfWeekShort + ". " + dateObj.dateString);
+        $calendarHeaderRow.find(".providers-wrap").empty();
+        var past = today > id;
+
+        // wrapper to hold all the booked appts. determine if its a past day here.
+        var $dayWrap = $("<div />", {
+          class : "day-wrap"
+        });
+        if (past) {
+          $calendarHeaderRow.addClass("past");
+          $dayWrap.addClass("past");
+        }
+
+        // handle days with empty appointments
+        if (!apptsByDayByProv[id]) {
+          $dayWrap.addClass("empty");
+        }
+
+        for (var provider in apptsByDayByProv[id]){
+          $calendarHeaderRow.find(".providers-wrap").append("<div class='provider-header title4'>" + provider + "</div>");
+          var byDayProvArrayObj = { "appointments" : apptsByDayByProv[id][provider] };
+          global.render(byDayProvArrayObj, "booked-appts-by-dayprov-cal", $dayWrap, false);
+        }
+
+        $(".calendar-booked").append($dayWrap);
+
+        dateIterator = appointments.incrementDate(dateIterator);
+        $(".calendar-header").append($calendarHeaderRow);
+        $calendarHeaderRow = $calendarHeaderRow.clone().removeClass("past");
+      }
+    });
+
+    // render appointments by day?
+
+  },
+  redrawAppointmentRow : function(apptObject, callback) {
     var id = apptObject._id;
     apptObject.status = appointments.determineStatus(apptObject);
     var $apptWrapper = $(".appt-wrapper#" + id);
@@ -399,7 +551,25 @@ appointments = {
     $apptWrapper.wrap('<div class="temp-wrapper"></div>');
     global.refreshWithNewData(".appointments-wrapper .temp-wrapper", "appointments-list-item", apptArrayObj, 0, function(){
       $(".temp-wrapper .appt-wrapper").unwrap();
+
+      if (typeof callback !== "undefined") {
+        callback();
+      }
     });
+  },
+  redrawAppointmentBlock : function(apptObject, callback) {
+    var id = apptObject._id;
+    // apptObject.status = appointments.determineStatus(apptObject);
+    // var $apptBlock = $(".appointment-block#" + id);
+    // var apptArrayObj = { "appointments" : [apptObject] };
+    // $apptBlock.wrap('<div class="temp-wrapper"></div>');
+    // global.refreshWithNewData(".appointments-wrapper .temp-wrapper", "appointments-list-item", apptArrayObj, 0, function(){
+    //   $(".temp-wrapper .appt-wrapper").unwrap();
+    //
+    //   if (typeof callback !== "undefined") {
+    //     callback();
+    //   }
+    // });
   },
   loadAppointments : function(callback) {
     $.getJSON("js/json/appointments.json", function(data) {
@@ -871,10 +1041,6 @@ textInput = {
 $(document).ready(function(){
   pages.init(false);
 
-  $.History.bind(function(){
-    pages.init(true);
-  });
-
   $(window).scroll(function(){
     var scroll = $("html").scrollTop();
 
@@ -1005,9 +1171,13 @@ $(document).ready(function(){
     $(this).parents(".popover").toggleClass("closed");
   });
 
-  $(document).on("click", ".checkbox", function(e){
+  $(document).on("click", ".checkbox, .checkbox-text", function(e){
     e.stopPropagation();
-
+    var $checkbox = $(this);
+    if ($(this).hasClass("checkbox-text")) {
+      $checkbox = $(this).siblings(".checkbox");
+    }
+    $checkbox.toggleClass("checked");
   });
 
   $(document).on("mouseover", ".tooltip-icon", function(){
@@ -1055,9 +1225,10 @@ $(document).ready(function(){
     $(this).toggleClass("false");
     $(this).toggleClass("true");
   });
+
   // END OF GLOBAL STUFF.
 
-  $(document).on("click", ".appt-wrapper", function() {
+  $(document).on("click", ".appt-wrapper, .appointment-block", function() {
     var id = $(this).attr("id");
     var apptObj = { "appointments" : [_.findWhere(appointments.appts, {_id: id})] };
 
@@ -1072,9 +1243,16 @@ $(document).ready(function(){
         global.closeSlideout();
       }
       else {
-        var selectedId = $(".appt-wrapper.selected").attr("id");
-        appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
-        $(".appt-wrapper.selected").removeClass("selected");
+        var selectedId = $(".appt-item.selected").attr("id");
+
+        if (pages.current === "listView") {
+          appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
+        }
+        else {
+          appointments.redrawAppointmentBlock( _.findWhere(appointments.appts, {_id: selectedId}) );
+        }
+
+        $(".appt-item.selected").removeClass("selected");
         $(this).addClass("selected");
         global.refreshWithNewData(".slideout .slideoutContent", "appointment-slideout", apptObj);
       }
@@ -1100,12 +1278,12 @@ $(document).ready(function(){
     }
   });
 
-
-  $(document).on("click", ".slideout .cancelCTA", function(){
+  $(document).on("click", ".slideout .cancelCTA:not(.disabled)", function(){
     modal.openModal("cancelAppointment", "small", true, function(){
-      var id = $(".appt-wrapper.selected").attr("id");
-      var apptObj = { "appointments" : [_.findWhere(appointments.appts, {_id: id})] };
-      global.render(apptObj, "cancel-appt-modal-datalist", $(".modal .appointment-summary"));
+      var id = $(".appt-item.selected").attr("id");
+      var apptObj = _.findWhere(appointments.appts, {_id: id});
+      var apptObjArray = { "appointments" : [apptObj] };
+      global.render(apptObjArray, "cancel-appt-modal-datalist", $(".modal .appointment-summary"));
     });
   });
 
@@ -1116,15 +1294,36 @@ $(document).ready(function(){
     });
   });
 
+  $(document).on("click", ".full-width-modal-cta.go-back .button", function(e) {
+    e.stopPropagation();
+    modal.closeModal();
+  });
+
   $(document).on("click", ".full-width-modal-cta.cancel-appt .buttonWrap:not(.disabled) .button", function(e) {
     e.stopPropagation();
-    var id = $(".appt-wrapper.selected").attr("id");
+    var id = $(".appt-item.selected").attr("id");
     var apptObj = _.findWhere(appointments.appts, {_id: id});
     apptObj.canceled = true;
+    apptObj.lateCancel = $(".data-row.late-cancel .checkbox").hasClass("checked");
     var apptObjArray = { "appointments" : [apptObj] };
     modal.closeModal();
-    appointments.redrawAppointmentRow(apptObj);
+    if (pages.current === "listView") {
+      appointments.redrawAppointmentRow(apptObj, function() {
+        $(".appt-item#" + id).addClass("selected");
+      });
+    }
+    else {
+      appointments.redrawAppointmentBlock(apptObj, function() {
+        $(".appt-item#" + id).addClass("selected");
+      });
+    }
     global.refreshWithNewData(".slideout .slideoutContent", "appointment-slideout", apptObjArray);
   });
+
+  $(document).on("click", ".toggle.viewStyle .toggle-btn:not(.sel)", function() {
+    var view = $(this).attr("value") + "View";
+    pages.list["appointments" + view].init(true);
+  });
+
 
 });

@@ -209,8 +209,8 @@ body.buttons {
   }
   &.secondary.disabled .button,
   &.secondary.disabled .button:hover {
-    border-color: $color-border-gray-dark;
-    background-color: $color-white;
+    border-color: $color-text-light;
+    background-color: $color-border-gray;
   }
   // &.secondary.action .button:after {
   //   background: url("../img/dropdown-arrow.svg") center right no-repeat;

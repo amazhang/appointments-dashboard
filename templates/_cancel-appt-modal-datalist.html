@@ -22,5 +22,18 @@
         <div class="text">{{ provider.address }}</div>
       </div>
     </div>
+
+  {{#if past}}
+  <div class="data-row late-cancel">
+    <div class="title4 key")>Late cancellation</div>
+    <div class="value">
+      <div class="checkbox"></div>
+      <div class="text checkbox-text">Patient canceled with <span class="title4">< 24 hrs</span> notice.</div>
+    </div>
   </div>
+</div>
+  {{ else }}
+</div>
+    <div class="subText cancelNotifying">Upon canceling, we’ll notify the patient on your behalf.</div>
+  {{/if}}
 {{/appointments}}

@@ -118,6 +118,14 @@
   @return calc( (( #{$numColumns} / #{$totalCols})*100%) - (#{$gutter} * (#{$totalCols - $numColumns} / #{$totalCols})) );
 }
 
+@function percentageColumnsNoContext($numColumns, $gutter:$gutter-size, $margin:$page-margin, $totalCols:12) {
+  @return calc( (( #{$numColumns} / #{$totalCols})* (100vw - (#{$margin} * 2)) ) - (#{$gutter} * (#{$totalCols - $numColumns} / #{$totalCols})) );
+}
+
+@function percentageColumnsNoContextWithOffset($numColumns, $offset, $gutter:$gutter-size, $margin:$page-margin, $totalCols:12) {
+  @return calc( (( #{$numColumns} / #{$totalCols}) * (100vw - (#{$margin} * 2)) ) - (#{$gutter} * (#{$totalCols - $numColumns} / #{$totalCols})) + #{$offset} );
+}
+
 @mixin setColsNoMargin($num, $totalCols:12) {
   width: ($num / $totalCols) * 100%;
 }

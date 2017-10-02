@@ -265,6 +265,10 @@ a.textLink {
   }
 }
 
+.checkbox + .checkbox-text {
+  cursor: pointer;
+}
+
 .titleAndTableFilterWrap {
   display: flex;
   justify-content: space-between;

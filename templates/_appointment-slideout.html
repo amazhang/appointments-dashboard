@@ -115,12 +115,16 @@
     </div>
   </div>
   <div class="slideout-section_footer">
-    <div class="buttonWrap fieldwrap secondary medium">
+    <div class="buttonWrap fieldwrap primary medium">
       <div class="button">View member plan and eligibility</div>
     </div>
 
     {{#if (eq status "canceled") }}
-
+      <div class="buttonWrap fieldwrap secondary medium cancelCTA disabled">
+        <div class="button">
+          This appointment was canceled{{#if lateCancel }} late{{/if}}.
+        </div>
+      </div>
     {{else}}
       <div class="buttonWrap fieldwrap secondary medium cancelCTA {{#if noShow }}disabled{{/if}}">
         <div class="button">

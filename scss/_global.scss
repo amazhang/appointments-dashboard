@@ -9,7 +9,6 @@ body {
   font-size: 14px;
   position: relative;
   min-width: $med-breakpt;
-  padding-top: $topBarHeight;
   // overflow-x: hidden;
   width: 100%;
 
@@ -93,7 +92,7 @@ form {
   pointer-events: none;
   opacity: 0;
   z-index: $z-loading;
-  transition: $transition-normal $easing-curve;
+  transition: opacity $transition-normal $easing-curve;
 
   &.loading {
     opacity: 1;
@@ -239,6 +238,7 @@ section {
   width: 100%;
   height: $topBarHeight;
   top: 0;
+  left: 0;
   z-index: $z-headerbar;
   border-bottom: 1px solid $color-border-gray-dark;
   justify-content: space-between;
@@ -389,10 +389,6 @@ section {
 a.curr {
   opacity: 1;
   color: $color-light-blue;
-}
-
-.subheaderPage {
-  margin-top: $subheaderHeight;
 }
 
 

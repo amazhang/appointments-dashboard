@@ -1,14 +1,24 @@
+body.calView {
+  overflow: hidden;
+}
+
+.appointments-view {
+  padding: 0;
+  height: 100%;
+  display: flex;
+
+  .content {
+    height: 100%;
+    padding: 0;
+  }
+}
+
 .dashboard-header {
-  padding-top: $buffer-lrg - $buffer-sml;
-  padding-bottom: $buffer-lrg - $buffer-sml;
+  padding-bottom: $buffer-lrg;
 
   .content {
     display: flex;
     justify-content: space-between;
-  }
-  .pageTitle,
-  .actions {
-    margin: $buffer-sml 0;
   }
   .actions {
     display: flex;
@@ -27,10 +37,46 @@
       width: 200px;
     }
   }
+  .toggle-btn {
+    .icon {
+      width: 24px;
+      height: 24px;
+      transition: $transition-quick $easing-curve;
+    }
+
+    &[value=List] .icon {
+      background: url("../img/icon_list_24.svg") center center no-repeat;
+      background-size: contain;
+      opacity: 0.4;
+    }
+
+    &[value=Cal] .icon {
+      background: url("../img/icon_calendar_24.svg") center center no-repeat;
+      background-size: contain;
+      opacity: 0.4;
+    }
+
+    &.sel {
+      &[value=List] .icon {
+        background: url("../img/icon_list_24-blue.svg") center center no-repeat;
+        opacity: 1;
+      }
+
+      &[value=Cal] .icon {
+        background: url("../img/icon_calendar_24-blue.svg") center center no-repeat;
+        opacity: 1;
+      }
+    }
+
+    &:not(.sel):hover .icon {
+      opacity: 0.8;
+    }
+  }
 }
 
 .appointments-list {
-  padding-top: 0;
+  padding: 0 $page-margin;
+  width: 100%;
 
   &.all-providers {
     .appt-wrapper {
@@ -46,10 +92,6 @@
     .appt-wrapper:not(.karen-mcadoo) {
       display: none;
     }
-  }
-
-  .list-wrap {
-    width: 100%;
   }
 
   .list-row {
@@ -238,6 +280,290 @@
   }
 }
 
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$topBarHeight + $subheaderHeight});
+  margin-top: $topBarHeight + $subheaderHeight;
+  justify-content: space-between;
+}
+
+.time-markers {
+  position: fixed;
+  top: $topBarHeight + $subheaderHeight + 132px + 105px;
+  width: percentageColumnsNoContextWithOffset(12, $page-margin);
+  left: $page-margin;
+  pointer-events: none;
+  height: 100%;
+  overflow: hidden;
+
+  .time-markers-inner {
+    transform: translateY(-800px);
+  }
+
+  .hour {
+    height: 100px;
+    position: relative;
+    width: 100%;
+
+    &:last-child{
+      &:after, &:before { display: none }
+    }
+
+    .primaryText {
+      position: absolute;
+      top: 0;
+    }
+
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      left: percentageColumnsNoContext(1);
+      padding-left: $gutter-size;
+      padding-right: $page-margin;
+      width: percentageColumnsNoContext(11);
+      box-sizing: content-box;
+      z-index: -1;
+    }
+    &:before {
+      bottom: 0;
+      border: 1px solid $color-border-gray-dark;
+    }
+
+    &:after {
+      top: 50%;
+      border: 1px dashed $color-border-gray;
+    }
+  }
+}
+.gradient-book-ends {
+  width: percentageColumnsNoContextWithOffset(11, ($page-margin + $gutter-size));
+  height: 100%;
+  left: percentageColumnsNoContextWithOffset(1, $page-margin);
+  top: 0;
+  position: absolute;
+  pointer-events: none;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: $gutter-size;
+    height: 100%;
+    z-index: 3;
+  }
+
+  &:before {
+    left: 0;
+    @include linear-gradient(left, rgba($color-white, 1), rgba($color-white, 0));
+  }
+
+  &:after {
+    right: 0;
+    @include linear-gradient(right, rgba($color-white, 1), rgba($color-white, 0));
+  }
+}
+.appointments-calendar {
+  width: percentageColumnsNoContextWithOffset(11, ($page-margin + $gutter-size));
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-left: percentageColumnsNoContextWithOffset(1, $page-margin);
+  box-sizing: content-box;
+
+  .calendar-header {
+    display: inline-block;
+    white-space: nowrap;
+    // justify-content: flex-start;
+    // width: 100%;
+    min-height: $buffer-sml*4 + $text-line-height*2 + 1;
+    box-shadow: $anatomy-box-shadow-small;
+    z-index: 2;
+    position: relative;
+
+    .cal-header-day-wrap {
+      padding-left: $gutter-size;
+      display: inline-block;
+      vertical-align: top;
+
+      &:last-child {
+        padding-right: $page-margin;
+      }
+
+      &.past {
+        opacity: 0.6;
+      }
+    }
+    .providers-wrap {
+      display: flex;
+      min-width: percentageColumnsNoContext(2);
+
+      &:empty {
+        border-bottom: 1px solid $color-border-gray-dark;
+        position: relative;
+
+        &:after {
+          content: "No booked appointments";
+          position: absolute;
+          text-align: center;
+          width: 100%;
+          @extend .title4;
+          color: $color-text-light;
+          top: $buffer-sml;
+        }
+      }
+    }
+    .date-wrap,
+    .provider-header {
+      text-align: center;
+      padding: $buffer-sml 0;
+    }
+    .provider-header {
+      width: percentageColumnsNoContextWithOffset(2, 10px);
+      padding-left: 5px;
+      padding-right: 5px;
+      margin-right: 10px;
+      border-top: 1px solid $color-teal;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .calendar-booked-wrap {
+    overflow-y: auto;
+    display: inline-block;
+    height: calc(100% - 105px);
+    padding-bottom: $buffer-lrg * 2;
+  }
+
+  .calendar-booked {
+    height: 100px * 24;
+    display: inline-flex;
+    position: relative;
+    padding-right: $page-margin - $gutter-size/2;
+    padding-left: $gutter-size/2;
+
+    &:after, &:before {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background-color: $color-white;
+      width: $gutter-size;
+      content: "";
+      z-index: 2;
+    }
+    &:before {
+      left: 0;
+    }
+    &:after {
+      right: 0;
+      width: $page-margin;
+    }
+  }
+  .provider-wrap {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    position: relative;
+  }
+
+  .day-wrap {
+    min-width: percentageColumnsNoContext(2);
+    padding: 0 $gutter-size/2;
+    box-sizing: content-box;
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    &:after {
+      content: "";
+      top: 0;
+      left: 0;
+      position: absolute;
+      height: 100%;
+      border-left: 1px solid $color-border-gray-dark;
+    }
+
+    &.empty, &.empty.past {
+      background: $color-gray-background-warm url("../img/background_light-stripes.png");
+    }
+
+    &.past {
+      background-color: $color-border-gray;
+    }
+  }
+
+  .provider-wrap {
+    width: percentageColumnsNoContextWithOffset(2, 10px);
+    margin-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .appointment-block {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    padding: 0 10px;
+    box-shadow: $anatomy-box-shadow-extra-small;
+    border-radius: $border-radius;
+    background-color: $color-white;
+    z-index: 1;
+    border: 1px solid $color-border-gray-dark;
+    cursor: pointer;
+    transition: $transition-quick $easing-curve;
+
+    &:hover {
+      box-shadow: $anatomy-box-shadow-small;
+    }
+
+    &.complete {
+      background-color: $color-border-gray-dark;
+      border-left: 2px solid $color-text;
+
+      .appointment-block-inner * {
+        color: $color-text;
+      }
+    }
+
+    &.booked {
+      border-left: 2px solid $color-light-blue;
+    }
+
+    &.canceled,
+    &.noshow {
+      border-left: 2px solid $color-red;
+
+      .appointment-block-inner * {
+        color: $color-red;
+        opacity: 0.8;
+        text-decoration: line-through;
+      }
+
+      &.past {
+        background-color: rgba($color-red, 0.15);
+      }
+    }
+
+    .appointment-block-inner {
+      padding: 3px 0;
+    }
+
+    .reasonForVisit,
+    .patient {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
 .withicon {
   position: relative;
 
@@ -245,7 +571,7 @@
     content: "";
     @include centerAbsV;
     right: 100%;
-    margin-right: $icon-button-margin;
+    margin-right: $icon-button-margin/2;
     width: $icon-small;
     height: $icon-small;
     background-size: contain;
@@ -253,7 +579,6 @@
 }
 
 .status {
-
   .complete {
     &::before {
       background: url("../img/icon_circlecheckmark_16-green.svg") center center no-repeat;
@@ -341,6 +666,13 @@
 
     .buttonWrap {
       // display: block;
+    }
+  }
+  .data-row.late-cancel .value {
+    display: flex;
+
+    .checkbox {
+      margin-right: $icon-button-margin;
     }
   }
 }
