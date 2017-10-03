@@ -144,6 +144,7 @@ var pages = {
               $(".time-markers-inner").css("transform", "translateY(-" + scrollPos + "px)");
             });
 
+            $(".calendar-booked").empty();
             if (appointments.appts === null) {
               appointments.loadAppointments(function() {
                 appointments.drawCalView();
@@ -219,15 +220,21 @@ global = {
     if (pages.current === "listView") {
       spot = $div.offset().top - 115 - 53;
     }
-
-    var time = 0;
-
-    if (typeof animate === "undefined" || animate) {
-      time = 500;
-    }
+    var time = typeof animate === "undefined" ? 500 : 0;
 
     $('html,body').animate({
       scrollTop : spot
+    }, time, function(){
+      if (typeof onComplete !== "undefined") {
+        onComplete();
+      }
+    });
+  },
+  scrollToHorizontally : function($div, $container, animate, onComplete) {
+    var spot = $div.position().left;
+    var time = typeof animate === "undefined" ? 500 : 0;
+    $container.animate({
+      scrollLeft : spot
     }, time, function(){
       if (typeof onComplete !== "undefined") {
         onComplete();
@@ -283,11 +290,8 @@ global = {
     //appointments
     var id = $(".appt-item.selected").attr("id");
     var apptObj = _.findWhere(appointments.appts, {_id: id});
-    if (pages.current === "listView") {
-      appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
-    }
-    else {
-      appointments.redrawAppointmentBlock( _.findWhere(appointments.appts, {_id: selectedId}) );
+    if (apptObj) {
+      appointments.redrawAppointmentItem( apptObj );
     }
     $(".appt-item.selected").removeClass("selected");
   },
@@ -494,7 +498,7 @@ appointments = {
     }
     subheader.scrollHelper($("html").scrollTop());
   },
-  drawCalView : function() {
+  drawCalView : function(callback) {
     var apptsByDayByProv = appointments.getAppointmentsByDayAndProvider(appointments.appts);
     var today = appointments.dateStrToObj(appointments.today).dateNoHyphens;
 
@@ -503,11 +507,12 @@ appointments = {
       var $calendarHeaderRow = $(html);
       $(".calendar-header").empty();
       var dateIterator = appointments.startingWeek;
+
       // 7 days in a week, 7 showing at a time.
       for (var i = 0; i < 7; i++) {
         var dateObj = appointments.dateStrToObj(dateIterator);
         var id = dateObj.dateNoHyphens;
-
+        $calendarHeaderRow.attr("key", dateObj.dayOfWeek.toLowerCase());
         $calendarHeaderRow.find(".date-wrap").html(dateObj.dayOfWeekShort + ". " + dateObj.dateString);
         $calendarHeaderRow.find(".providers-wrap").empty();
         var past = today > id;
@@ -527,9 +532,12 @@ appointments = {
         }
 
         for (var provider in apptsByDayByProv[id]){
-          $calendarHeaderRow.find(".providers-wrap").append("<div class='provider-header title4'>" + provider + "</div>");
+          var providerName = provider.toLowerCase().replace(/\s/g, "-");
+          $calendarHeaderRow.find(".providers-wrap").append("<div class='provider-header title4 " + providerName + "'>" + provider + "</div>");
           var byDayProvArrayObj = { "appointments" : apptsByDayByProv[id][provider] };
-          global.render(byDayProvArrayObj, "booked-appts-by-dayprov-cal", $dayWrap, false);
+          var $providerWrap = $("<div class='provider-wrap " + providerName + "'></div>");
+          global.render(byDayProvArrayObj, "booked-appts-by-dayprov-cal", $providerWrap, false);
+          $dayWrap.append($providerWrap);
         }
 
         $(".calendar-booked").append($dayWrap);
@@ -538,10 +546,16 @@ appointments = {
         $(".calendar-header").append($calendarHeaderRow);
         $calendarHeaderRow = $calendarHeaderRow.clone().removeClass("past");
       }
+
+      subheader.horizontalScrollHelper($(".appointments-calendar"));
+      $(".appointments-calendar").scroll(function(){
+        subheader.horizontalScrollHelper($(".appointments-calendar"));
+      });
+
+      if (typeof callback !== "undefined") {
+        callback();
+      }
     });
-
-    // render appointments by day?
-
   },
   redrawAppointmentRow : function(apptObject, callback) {
     var id = apptObject._id;
@@ -558,18 +572,17 @@ appointments = {
     });
   },
   redrawAppointmentBlock : function(apptObject, callback) {
-    var id = apptObject._id;
-    // apptObject.status = appointments.determineStatus(apptObject);
-    // var $apptBlock = $(".appointment-block#" + id);
-    // var apptArrayObj = { "appointments" : [apptObject] };
-    // $apptBlock.wrap('<div class="temp-wrapper"></div>');
-    // global.refreshWithNewData(".appointments-wrapper .temp-wrapper", "appointments-list-item", apptArrayObj, 0, function(){
-    //   $(".temp-wrapper .appt-wrapper").unwrap();
-    //
-    //   if (typeof callback !== "undefined") {
-    //     callback();
-    //   }
-    // });
+    apptObject.status = appointments.determineStatus(apptObject);
+    $(".calendar-booked").empty();
+    appointments.drawCalView(callback);
+  },
+  redrawAppointmentItem : function(apptObject, callback) {
+    if (pages.current === "listView") {
+      appointments.redrawAppointmentRow( apptObject, callback );
+    }
+    else {
+      appointments.redrawAppointmentBlock( apptObject, callback );
+    }
   },
   loadAppointments : function(callback) {
     $.getJSON("js/json/appointments.json", function(data) {
@@ -924,6 +937,11 @@ subheader = {
     var $destination = $(".subheadAnchor[key=" + destination + "]");
     global.scrollTo($destination);
   },
+  scrollToHorizontally : function($navItem, $scrollableContainer) {
+    var destination = $navItem.attr("key");
+    var $destination = $(".subheadAnchor[key=" + destination + "]");
+    global.scrollToHorizontally($destination, $scrollableContainer);
+  },
   scrollHelper: function(scroll) {
     var mostFarIndex = 0;
     $(".subheader-nav-item").each(function(i, navItem){
@@ -934,13 +952,29 @@ subheader = {
       if (pages.current === "listView") {
         offset = $(".subheadAnchor[key=" + destination + "]").offset().top - 115 - 53;
       }
+      // console.log(offset, scroll, offset < scroll);
       if (offset <= scroll) {
         mostFarIndex = i;
       }
     });
 
-    var mostFarIndexAdjusted = parseInt(mostFarIndex) + 2;
-    subheader.selectNavItem($(".subheader-nav-item:nth-child(" + mostFarIndexAdjusted + ")"));
+    var mostFarIndexAdjusted = parseInt(mostFarIndex);
+    subheader.selectNavItem($(".subheader-nav-item").eq(mostFarIndexAdjusted));
+  },
+
+  horizontalScrollHelper : function($scrollableContainer) {
+    var mostFarIndex = 0;
+    var xScroll = $scrollableContainer.scrollLeft();
+
+    $(".subheader-nav-item").each(function(i, navItem){
+      var destination = $(navItem).attr("key");
+      var offset = $(".subheadAnchor[key=" + destination + "]").position().left - 15;
+
+      if (offset <= xScroll) {
+        mostFarIndex = i;
+      }
+    });
+    subheader.selectNavItem($(".subheader-nav-item").eq(mostFarIndex));
   }
 };
 
@@ -1042,8 +1076,7 @@ $(document).ready(function(){
   pages.init(false);
 
   $(window).scroll(function(){
-    var scroll = $("html").scrollTop();
-
+    var scroll = $("html, body").scrollTop();
     // if (scroll > 0) {
     //   $(".subheader").addClass("scrolled");
     // }
@@ -1195,7 +1228,15 @@ $(document).ready(function(){
   $(document).on("click", ".subheader-nav-item", function(e) {
     e.stopPropagation();
     subheader.selectNavItem($(this));
-    subheader.scrollTo($(this));
+
+    //appointments only
+    if (pages.current === "calView") {
+      subheader.scrollToHorizontally($(this), $(".appointments-calendar"));
+    }
+    else {
+      subheader.scrollTo($(this));
+    }
+
   });
 
   $(document).on("click", ".modal", function(e) {
@@ -1217,7 +1258,7 @@ $(document).ready(function(){
     $(this).addClass("sel");
   });
 
-  $(document).on("click", ".slideout .close", function(){
+  $(document).on("click", ".slideout .close, .slideout.freeze-bg .freeze", function(){
     global.closeSlideout();
   });
 
@@ -1244,13 +1285,7 @@ $(document).ready(function(){
       }
       else {
         var selectedId = $(".appt-item.selected").attr("id");
-
-        if (pages.current === "listView") {
-          appointments.redrawAppointmentRow( _.findWhere(appointments.appts, {_id: selectedId}) );
-        }
-        else {
-          appointments.redrawAppointmentBlock( _.findWhere(appointments.appts, {_id: selectedId}) );
-        }
+        appointments.redrawAppointmentItem( _.findWhere(appointments.appts, {_id: selectedId}) );
 
         $(".appt-item.selected").removeClass("selected");
         $(this).addClass("selected");
@@ -1263,8 +1298,8 @@ $(document).ready(function(){
     e.stopPropagation();
 
     var key = $(this).attr("key");
-    $(".appointments-list").removeClass("all-doctors claudia-roberts-only karen-mcadoo-only");
-    $(".appointments-list").addClass(key);
+    $(".appointments-list, .appointments-calendar").removeClass("all-providers claudia-roberts-only karen-mcadoo-only");
+    $(".appointments-list, .appointments-calendar").addClass(key);
   });
 
   $(document).on("click", ".toggleSwitch.noShow, .toggleSwitch.lateCancel", function(){
@@ -1307,23 +1342,16 @@ $(document).ready(function(){
     apptObj.lateCancel = $(".data-row.late-cancel .checkbox").hasClass("checked");
     var apptObjArray = { "appointments" : [apptObj] };
     modal.closeModal();
-    if (pages.current === "listView") {
-      appointments.redrawAppointmentRow(apptObj, function() {
-        $(".appt-item#" + id).addClass("selected");
-      });
-    }
-    else {
-      appointments.redrawAppointmentBlock(apptObj, function() {
-        $(".appt-item#" + id).addClass("selected");
-      });
-    }
+    appointments.redrawAppointmentItem( apptObj, function() {
+      $(".appt-item#" + id).addClass("selected");
+    });
     global.refreshWithNewData(".slideout .slideoutContent", "appointment-slideout", apptObjArray);
   });
 
   $(document).on("click", ".toggle.viewStyle .toggle-btn:not(.sel)", function() {
     var view = $(this).attr("value") + "View";
+    global.closeSlideout();
     pages.list["appointments" + view].init(true);
   });
-
 
 });

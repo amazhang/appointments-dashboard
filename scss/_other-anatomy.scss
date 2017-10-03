@@ -450,6 +450,10 @@ a.textLink {
     transform: translateX(100%);
   }
 
+  &.freeze-bg .freeze {
+    display: block;
+  }
+
   .close {
     background: url("../img/icon_close_24.svg") center center no-repeat;
     width: 24px;
@@ -464,6 +468,16 @@ a.textLink {
     &:hover {
       opacity: 0.6;
     }
+  }
+
+  .freeze {
+    background: transparent;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: calc(100vw - #{$slideout-size});
+    height: 100vh;
+    display: none;
   }
 
   .slideoutTitle {

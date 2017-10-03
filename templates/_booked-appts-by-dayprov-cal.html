@@ -1,15 +1,13 @@
-<div class="provider-wrap">
-  {{#appointments}}
-    <div class="appt-item appointment-block {{ status }} {{#if past}}past{{/if}}" id="{{ _id }}" style="top: {{ multiply startTime 100 }}; height: {{ multiply duration 100 }};">
-      <div class="appointment-block-inner">
-        <div class="title4 reasonForVisit">
-          {{ type }}{{#if reasonForVisit}} - {{ reasonForVisit }}{{/if}}
-        </div>
-        <div class="subText patient">
-          <span class="time">{{ decimalToTime startTime }} ·</span>
-          <span class="name">{{ member.firstName }} {{ member.lastName }}</span>
-        </div>
+{{#appointments}}
+  <div data-provider="{{ provider.name }}" class="appt-item appointment-block {{ status }} {{#if past}}past{{/if}}" id="{{ _id }}" style="top: {{ multiply startTime 100 }}; height: {{ multiply duration 100 }};">
+    <div class="appointment-block-inner">
+      <div class="title4 reasonForVisit">
+        {{ type }}{{#if reasonForVisit}} - {{ reasonForVisit }}{{/if}}
+      </div>
+      <div class="subText patient">
+        <span class="time">{{ decimalToTime startTime }} ·</span>
+        <span class="name">{{ member.firstName }} {{ member.lastName }}</span>
       </div>
     </div>
-  {{/appointments}}
-</div>
+  </div>
+{{/appointments}}

@@ -1,5 +1,9 @@
 body.calView {
   overflow: hidden;
+
+  .dashboard-wrapper  {
+    height: calc(100vh - #{$topBarHeight + $subheaderHeight});
+  }
 }
 
 .appointments-view {
@@ -283,7 +287,6 @@ body.calView {
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - #{$topBarHeight + $subheaderHeight});
   margin-top: $topBarHeight + $subheaderHeight;
   justify-content: space-between;
 }
@@ -371,24 +374,41 @@ body.calView {
   margin-left: percentageColumnsNoContextWithOffset(1, $page-margin);
   box-sizing: content-box;
 
+
+  &.all-providers {
+    .provider-header { display: block; }
+    .provider-wrap { display: flex; }
+  }
+  &.claudia-roberts-only {
+    .provider-header:not(.claudia-roberts),
+    .provider-wrap:not(.claudia-roberts) {
+      display: none;
+    }
+  }
+  &.karen-mcadoo-only {
+    .provider-header:not(.karen-mcadoo),
+    .provider-wrap:not(.karen-mcadoo) {
+      display: none;
+    }
+  }
+
+
   .calendar-header {
     display: inline-block;
     white-space: nowrap;
     // justify-content: flex-start;
     // width: 100%;
     min-height: $buffer-sml*4 + $text-line-height*2 + 1;
-    box-shadow: $anatomy-box-shadow-small;
+    box-shadow: $anatomy-box-shadow-extra-small;
     z-index: 2;
     position: relative;
+    padding-left: $gutter-size/2;
+    padding-right: $page-margin - ($gutter-size/2);
 
     .cal-header-day-wrap {
-      padding-left: $gutter-size;
+      padding: 0 $gutter-size/2;
       display: inline-block;
       vertical-align: top;
-
-      &:last-child {
-        padding-right: $page-margin;
-      }
 
       &.past {
         opacity: 0.6;
@@ -537,7 +557,7 @@ body.calView {
     }
 
     &.canceled,
-    &.noshow {
+    &.no-show {
       border-left: 2px solid $color-red;
 
       .appointment-block-inner * {
@@ -551,8 +571,12 @@ body.calView {
       }
     }
 
+    &.selected {
+      box-shadow: $anatomy-box-shadow-medium;
+    }
+
     .appointment-block-inner {
-      padding: 3px 0;
+      padding: 3px 1px;
     }
 
     .reasonForVisit,
