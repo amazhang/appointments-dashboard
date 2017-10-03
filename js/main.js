@@ -95,6 +95,11 @@ var pages = {
               for (var i = 0; i < $(".date-row").length; i++) {
                 var $dateRow = $(".date-row").eq(i);
                 var dateObj = appointments.dateStrToObj(dateIterator);
+                var today = appointments.dateStrToObj(appointments.today);
+                if (today.dateNoHyphens > dateObj.dateNoHyphens){
+                  $dateRow.addClass("past");
+                }
+
                 $dateRow.attr("id", dateObj.dateNoHyphens);
                 $dateRow.find(".written-out").html(dateObj.dateString);
                 dateIterator = appointments.incrementDate(dateIterator);

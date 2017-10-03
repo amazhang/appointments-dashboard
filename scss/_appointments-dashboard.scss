@@ -154,18 +154,20 @@ body.calView {
   }
 
   .appointments-wrapper {
-    background: $color-gray-background-warm url("../img/background_light-stripes.png");
-    position: relative;
+    &:empty {
+      background: $color-gray-background-warm url("../img/background_light-stripes.png");
+      position: relative;
 
-    &:after {
-      content: "No appointments scheduled";
-      @extend .subText;
-      text-align: center;
-      display: block;
-      @include centerAbsV;
-      margin: 0 auto;
-      left: 0;
-      right: 0;
+      &:after {
+        content: "No appointments scheduled";
+        @extend .subText;
+        text-align: center;
+        display: block;
+        @include centerAbsV;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+      }
     }
   }
  .temp-wrapper .appt-wrapper:first-child {
@@ -174,7 +176,6 @@ body.calView {
   .appt-wrapper {
     display: flex;
     border-top: 1px solid $color-border-gray-dark;
-    background-color: $color-white;
     position: relative;
     z-index: 1;
     // transition: box-shadow $transition-quick $easing-curve;
@@ -185,7 +186,6 @@ body.calView {
       position: absolute;
       height: 100%;
       width: $button-hpadding;
-      background-color: $color-white;
       border: 1px solid $color-border-gray-dark;
       // transition: box-shadow $transition-quick $easing-curve;
       z-index: -1;
@@ -215,6 +215,7 @@ body.calView {
       &::before {
         content: "";
         box-shadow: $anatomy-box-shadow-medium;
+        background-color: $color-white;
       }
     }
 
@@ -280,6 +281,10 @@ body.calView {
       .eligibility > .text {
         text-transform: capitalize;
       }
+    }
+
+    &.past * {
+      color: $color-text-medium;
     }
   }
 }

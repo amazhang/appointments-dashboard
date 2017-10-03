@@ -428,7 +428,7 @@ a.curr {
 .open.medium.header input[type='text'].field.nonempty + label, .open.medium.header .dropdown.nonempty .label,
 .open.medium.header .dropdown.header input[type='text'].field:focus + label,
 .open.medium.header .dropdown.header input[type='text'].field.nonempty + label, .closed.header input[type='text'].field.nonempty + label.label,
-.closed.header input[type='text'].field:focus + label.label, .closed.header input[type='text'].field.nonempty.disabled + label.label, .dd .dropdown.nonempty .label, .dd.typeahead.header .expanded .label, .appointments-list .appointments-wrapper:after {
+.closed.header input[type='text'].field:focus + label.label, .closed.header input[type='text'].field.nonempty.disabled + label.label, .dd .dropdown.nonempty .label, .dd.typeahead.header .expanded .label, .appointments-list .appointments-wrapper:empty:after {
   font-family: AvenirNext;
   letter-spacing: .15px;
   color: #5c6b7e;
@@ -1746,7 +1746,7 @@ a.textLink {
   .open.medium.header .dropdown.header input[type='text'].field.nonempty + label,
   .open.medium.header .dropdown.header .anatomy-card input[type='text'].field.nonempty + label, .anatomy-card .closed.header input[type='text'].field.nonempty + label.label, .closed.header .anatomy-card input[type='text'].field.nonempty + label.label, .anatomy-card
   .closed.header input[type='text'].field:focus + label.label,
-  .closed.header .anatomy-card input[type='text'].field:focus + label.label, .anatomy-card .dd .dropdown.nonempty .label, .dd .dropdown.nonempty .anatomy-card .label, .anatomy-card .dd.typeahead.header .expanded .label, .dd.typeahead.header .expanded .anatomy-card .label, .anatomy-card .appointments-list .appointments-wrapper:after, .appointments-list .anatomy-card .appointments-wrapper:after {
+  .closed.header .anatomy-card input[type='text'].field:focus + label.label, .anatomy-card .dd .dropdown.nonempty .label, .dd .dropdown.nonempty .anatomy-card .label, .anatomy-card .dd.typeahead.header .expanded .label, .dd.typeahead.header .expanded .anatomy-card .label, .anatomy-card .appointments-list .appointments-wrapper:empty:after, .appointments-list .anatomy-card .appointments-wrapper:empty:after {
     position: absolute;
     bottom: 30px; }
   .anatomy-card.add {
@@ -2147,10 +2147,10 @@ body.calView {
     position: sticky;
     top: 168px;
     padding: 30px 0; }
-  .appointments-list .appointments-wrapper {
+  .appointments-list .appointments-wrapper:empty {
     background: #fbfaf9 url("../img/background_light-stripes.png");
     position: relative; }
-    .appointments-list .appointments-wrapper:after {
+    .appointments-list .appointments-wrapper:empty:after {
       content: "No appointments scheduled";
       text-align: center;
       display: block;
@@ -2165,7 +2165,6 @@ body.calView {
   .appointments-list .appt-wrapper {
     display: flex;
     border-top: 1px solid #dee1e5;
-    background-color: #fff;
     position: relative;
     z-index: 1;
     cursor: pointer; }
@@ -2173,7 +2172,6 @@ body.calView {
       position: absolute;
       height: 100%;
       width: 24px;
-      background-color: #fff;
       border: 1px solid #dee1e5;
       z-index: -1; }
     .appointments-list .appt-wrapper::before {
@@ -2193,7 +2191,8 @@ body.calView {
       z-index: 2; }
       .appointments-list .appt-wrapper:not(.selected):hover::after, .appointments-list .appt-wrapper:not(.selected):hover::before {
         content: "";
-        box-shadow: 0 8px 16px rgba(0, 24, 55, 0.1); }
+        box-shadow: 0 8px 16px rgba(0, 24, 55, 0.1);
+        background-color: #fff; }
     .appointments-list .appt-wrapper.selected {
       background-color: #F5F7FE; }
       .appointments-list .appt-wrapper.selected::after, .appointments-list .appt-wrapper.selected::before {
@@ -2229,6 +2228,8 @@ body.calView {
       text-transform: capitalize; }
     .appointments-list .date-row .col .eligibility > .text, .appointments-list .date-row .col .small .eligibility > label, .small .appointments-list .date-row .col .eligibility > label, .appointments-list .date-row .col .small .eligibility > input[type='text'], .small .appointments-list .date-row .col .eligibility > input[type='text'], .appointments-list .date-row .col .xsmall .eligibility > label, .xsmall .appointments-list .date-row .col .eligibility > label, .appointments-list .date-row .col .xsmall .eligibility > input[type='text'], .xsmall .appointments-list .date-row .col .eligibility > input[type='text'], .appointments-list .date-row .col .eligibility > .dd.xsmall, .appointments-list .date-row .col .eligibility > .dd.small, .appointments-list .date-row .col .buttonWrap .eligibility > .button-action, .buttonWrap .appointments-list .date-row .col .eligibility > .button-action {
       text-transform: capitalize; }
+    .appointments-list .date-row.past * {
+      color: #7b8a9d; }
 
 .dashboard-wrapper {
   display: flex;
